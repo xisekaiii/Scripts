@@ -1,4 +1,0 @@
-local old
-old = hookfunction(getupvalue(Fire,1),function(...)
-    return true
-end)
