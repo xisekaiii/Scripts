@@ -1462,7 +1462,34 @@ function CheckQuest()
 
             CFrameQuest = CFrame.new(-1147.8936767578125, 16.133047103881836, -14445.3583984375)
             VectorQuest = Vector3.new(-1147.8936767578125, 16.133047103881836, -14445.3583984375)
-elseid
+        elseif MyLevel == 2500 or MyLevel <= 2549 then
+            LevelFarm = 33
+
+            Monster = "Sun-kissed Warrior [Lv. 2500]"
+            QuestName = "TikiQuest2"
+
+            LevelQuest = 1
+            NameMon = "Sun-kissed Warrior"
+
+            CFrameMon = CFrame.new(-16779.44140625, 80.90757751464844, 1033.9219970703125)
+            VectorMon = Vector3.new(-16779.44140625, 80.90757751464844, 1033.9219970703125)
+
+            CFrameQuest = CFrame.new(-16538.716796875, 54.45490646362305, 1051.5523681640625)
+            VectorQuest = Vector3.new(-16538.716796875, 16.133047103881836, -14445.3583984375)
+        elseif MyLevel >= 2550 then
+            LevelFarm = 34
+
+            Monster = "Isle Champion [Lv. 2525]"
+            QuestName = "TikiQuest2"
+
+            LevelQuest = 2
+            NameMon = "Isle Champion"
+
+            CFrameMon = CFrame.new(-16335.1015625, 101.36190032958984, 1123.6614990234375)
+            VectorMon = Vector3.new(-16335.1015625, 101.36190032958984, 1123.6614990234375)
+
+            CFrameQuest = CFrame.new(-16538.716796875, 54.45490646362305, 1051.5523681640625)
+            VectorQuest = Vector3.new(-16538.716796875, 16.133047103881836, -14445.3583984375)
         end
     end
 end
