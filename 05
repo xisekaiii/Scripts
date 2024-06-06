@@ -394,7 +394,7 @@ end;
 
 
 task.spawn(function()
-	while FastAttack do
+	while _G.FastAttack do
 		wait(0)
 		require(game.ReplicatedStorage.Util.CameraShaker):Stop()
 		Bruh = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
@@ -418,33 +418,22 @@ task.spawn(function()
 end)
 
 
-task.spawn(function()
-    while task.wait() do
-        pcall(function()
-            if BringMob then
-                for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
-                    if v.Name == FastBring and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 500 then
-                        if MonPosition(v.HumanoidRootPart) then
-                            v.HumanoidRootPart.CFrame = PosMon
-                            v.Humanoid.JumpPower = 0
-                            v.Humanoid.WalkSpeed = 0
-                            v.HumanoidRootPart.Size = Vector3.new(60,60,60)
-                            v.HumanoidRootPart.Transparency = 1
-                            v.HumanoidRootPart.CanCollide = false
-                            v.Head.CanCollide = false
-                            v.Humanoid:ChangeState(11)
-                            v.Humanoid:ChangeState(14)
-                            if v.Humanoid:FindFirstChild("Animator") then
-                                v.Humanoid.Animator:Destroy()
-                            end
-                        end
-                    end
-                end
-            end
-        end)
-    end
+spawn(function()
+	game:GetService("RunService").Heartbeat:Connect(function()
+		pcall(function()
+			if _G.BringMob then
+				for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+					if _G.AutoFarm and BringMob and v.Name == Mon and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 200 then
+						v.HumanoidRootPart.CFrame = PosMon;
+						v.HumanoidRootPart.CanCollide = false;
+						v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+					end
+				end
+			end
+		end)
+	end)
 end)
-
 
 function EquipWeapon(B)
 	pcall(function()
@@ -533,8 +522,7 @@ spawn(function()
 												v.Humanoid.WalkSpeed = 0
 												v.Head.CanCollide = false
 												BringMob = true
-FastAttack = true
-												EquipWeapon(_G.SelectWeapon)
+										                EquipWeapon(_G.SelectWeapon)
 												v.HumanoidRootPart.Transparency = 1
 												Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
 												if not _G.AutoFarm then
@@ -543,7 +531,7 @@ FastAttack = true
 											end
 										until not _G.AutoFarm or not v.Parent or v.Humanoid.Health <= 0 or dM.Visible == false or not v:FindFirstChild("HumanoidRootPart")
 BringMob = false
-                        FastAttack = false
+                       _G.FastAttack = false
 									end
 								end
 							end
@@ -618,7 +606,6 @@ function Auto_Farm_Level_Fast()
 							v.Humanoid.WalkSpeed = 0
 							v.Head.CanCollide = false
 							BringMob = true
-FastAttack = true
 							EquipWeapon(_G.SelectWeapon)
 							if dL >= 70 and dL <= 310 then
 								if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
@@ -626,12 +613,11 @@ FastAttack = true
 								end
 							end;
 							PosMon = v.HumanoidRootPart.CFrame
-FastBring = v.Name
 							v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
 							v.HumanoidRootPart.Transparency = 1
 							Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
 							if not _G.AutoFarm then
-								FastAttack = true
+								_G.FastAttack = true
 							end
 						until not v.Parent or not _G.AutoFarm or v.Humanoid.Health < 0
 						Tween(CFrameMon)
@@ -665,7 +651,7 @@ FastBring = v.Name
 							game:service('VirtualInputManager'):SendKeyEvent(false, "Z", false, game)
 						end;
 						if not _G.AutoFarm then
-							FastAttack = true
+							_G.FastAttack = true
 						end
 					until game.Players[getgenv().SelectPly].Character.Humanoid.Health <= 0 or not Auto_Farm_Level_Fast() or dL >= 310
 				end
@@ -687,4 +673,12 @@ end
 
 AutoFarm:Toggle("Bypass TP",_G.BypassTP,function(value)
 _G.BypassTP = value
+end)
+
+AutoFarm:Toggle("Bring Mob",_G.BringMob,function(value)
+_G.BringMob = value
+end)
+
+AutoFarm:Toggle("Fast Attack",_G.FastAttack,function(value)
+_G.FastAttack = value
 end)
