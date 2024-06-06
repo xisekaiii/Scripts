@@ -110,6 +110,47 @@ function Tween2(Peach)
 	return tweenfunc
 end
 
+-- [ Body Gyro ]
+
+task.spawn(function()
+    game:GetService("RunService").Stepped:Connect(function()
+        pcall(function()
+            if _G.Settings.Main["Auto Farm Level"] or _G.Settings.Main["Auto Mob Aura"] or _G.Settings.Main["Auto Farm Fruit"] or _G.Settings.Main["Auto Farm Gun"] or _G.Settings.Main["Auto Second Sea"] or _G.Settings.Main["Auto Fully Third Sea"] or _G.Settings.Main["Auto Fully Saber"] or _G.Settings.Main["Auto Elite Hunter"] or _G.Settings.Main["Auto Cake Prince"] or _G.Settings.Main["Auto Dough King V2"] or _G.Settings.Main["Auto Rainbow Haki"] or _G.Settings.Main["Auto Swan Glasses"] or _G.Settings.Main["Auto Ken-Haki V2"] or _G.Settings.Main["Auto Musketeer Hat"] or _G.Settings.Main["Auto Holy Torch"] or _G.Settings.Main["Auto Serpent Bow"] or _G.Settings.Main["Auto Buddy Sword"] or _G.Settings.Main["Auto Rengoku"] or _G.Settings.Main["Auto Hallow Sycthe"] or _G.Settings.Main["Auto Pole"] or _G.Settings.Main["Auto Yama"] or _G.Settings.Main["Auto Cavander"] or _G.Settings.Main["Auto Tushita"] or _G.Settings.Main["Auto Dark Dagger"] or _G.Settings.Main["Auto Rainbow Haki"] or _G.Settings.Main["Auto Bartilo Quest"] or _G.Settings.Main["Auto Dark Coat"] or _G.Settings.Main["Auto Evo Race"] or _G.Settings.Main["Auto Farm Factory"] or _G.Settings.Main["Auto Farm Bone"] or _G.Settings.Material["Auto Farm Material"] or _G.Settings.Boss["Auto Farm Boss"] or _G.Settings.CDKs["Auto Cursed Dual Katana"] or _G.Settings.SoulGuis["Auto Soul Guitar"] or _G.Settings.Main["Auto Material Soul Guitar"] or _G.Settings.Observation["Auto Farm Ken"] or _G.Settings.Players["Teleport to Player"] or _G.Settings.Raids["Full Auto Raids"] or _G.Settings.Raids["Auto Next Island"] or _G.Settings.Teleport["Teleport to Island"] or _G.Settings.Main["Auto Farm Ectoplasm"] or _G.Settings.Melee["Auto Death Step"] or _G.Settings.Melee["Auto Super Human"] or _G.Settings.Melee["Auto Shark Man Karate"] or _G.Settings.Melee["Auto Electric Claw"] or _G.Settings.Melee["Auto Dragon Talon"] or _G.Settings.Melee["Auto God Human"] or _G.Settings.Main["Auto Twin Hooks"] or _G.Settings.Main["Auto Training Dummy"] or _G.Settings.Main["Auto Mirage Island"] or _G.Settings.Main["Teleport to Gear"] or _G.Settings.Main["Auto Farm Chests"] or _G.Settings.Main["Auto Complete Trials"] or _G.Settings.Main["Teleport Race Door"] or _G.Settings.Main["Auto Kill Boss Law"] or _G.Settings.Fruit["Auto Bring Fruit"] then
+                if syn then
+                    setfflag("HumanoidParallelRemoveNoPhysics","false")
+                    setfflag("HumanoidParallelRemoveNoPhysicsNoSimulate2","false")
+                    game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+                    if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Sit == true then
+                        game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Sit = false
+                    end
+                else
+                    if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                        if not game:GetService("Players").LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyVelocity1") then
+                            if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Sit == true then
+                                game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Sit = false
+                            end
+                            local BodyVelocity = Instance.new("BodyVelocity")
+                            BodyVelocity.Name = "BodyVelocity1"
+                            BodyVelocity.Parent =  game:GetService("Players").LocalPlayer.Character.HumanoidRootPart
+                            BodyVelocity.MaxForce = Vector3.new(10000,10000,10000)
+                            BodyVelocity.Velocity = Vector3.new(0,0,0)
+                        end
+                    end
+                    for i,v in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants()) do
+                        if v:IsA("BasePart") then
+                            v.CanCollide = false
+                        end
+                    end
+                end
+            else
+                if game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyVelocity1") then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyVelocity1"):Destroy()
+                end
+            end
+        end)
+    end)
+end)
+
 -- [ Bring Mob Function ]
 
 function MonPosition(object)
@@ -350,52 +391,7 @@ local function Q()
 		[9] = MobCFrameNuber
 	}
 end;
-task.spawn(function()
-	while task.wait() do
-		pcall(function()
-			if BringMob then
-				for y, z in pairs(game.Workspace.Enemies:GetChildren()) do
-					if not string.find(z.Name, "Boss") and (z.HumanoidRootPart.Position - PosMon.Position).magnitude <= 300 then
-						if InMyNetWork(z.HumanoidRootPart) then
-							z.HumanoidRootPart.CFrame = PosMon;
-							z.Humanoid.JumpPower = 0;
-							z.Humanoid.WalkSpeed = 0;
-							z.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
-							z.HumanoidRootPart.Transparency = 1;
-							z.HumanoidRootPart.CanCollide = false;
-							z.Head.CanCollide = false;
-							z.Humanoid:ChangeState(11)
-							z.Humanoid:ChangeState(14)
-							sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-						end
-					end
-				end
-			end
-		end)
-	end
-end)
-task.spawn(function()
-	while task.wait() do
-		pcall(function()
-			if BringMob then
-				for y, z in pairs(game.Workspace.Enemies:GetChildren()) do
-					if not string.find(z.Name, "Boss") and (z.HumanoidRootPart.Position - PosMon.Position).magnitude <= 300 then
-						z.HumanoidRootPart.CFrame = PosMon;
-						z.Humanoid.JumpPower = 0;
-						z.Humanoid.WalkSpeed = 0;
-						z.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
-						z.HumanoidRootPart.Transparency = 1;
-						z.HumanoidRootPart.CanCollide = false;
-						z.Head.CanCollide = false;
-						z.Humanoid:ChangeState(11)
-						z.Humanoid:ChangeState(14)
-						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-					end
-				end
-			end
-		end)
-	end
-end)
+
 
 task.spawn(function()
 	while _G.FastAttack do
@@ -420,6 +416,35 @@ task.spawn(function()
 		end
 	end
 end)
+
+
+task.spawn(function()
+    while task.wait() do
+        pcall(function()
+            if BringMob then
+                for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+                    if v.Name == FastBring and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 500 then
+                        if MonPosition(v.HumanoidRootPart) then
+                            v.HumanoidRootPart.CFrame = PosMon
+                            v.Humanoid.JumpPower = 0
+                            v.Humanoid.WalkSpeed = 0
+                            v.HumanoidRootPart.Size = Vector3.new(60,60,60)
+                            v.HumanoidRootPart.Transparency = 1
+                            v.HumanoidRootPart.CanCollide = false
+                            v.Head.CanCollide = false
+                            v.Humanoid:ChangeState(11)
+                            v.Humanoid:ChangeState(14)
+                            if v.Humanoid:FindFirstChild("Animator") then
+                                v.Humanoid.Animator:Destroy()
+                            end
+                        end
+                    end
+                end
+            end
+        end)
+    end
+end)
+
 
 function EquipWeapon(B)
 	pcall(function()
@@ -508,6 +533,7 @@ spawn(function()
 												z.Humanoid.WalkSpeed = 0;
 												z.Head.CanCollide = false;
 												BringMob = true;
+_G.FastAttack = true
 												EquipWeapon(_G.SelectWeapon)
 												z.HumanoidRootPart.Transparency = 1;
 												Tween(z.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
@@ -516,6 +542,8 @@ spawn(function()
 												end
 											end
 										until not _G.AutoFarm or not z.Parent or z.Humanoid.Health <= 0 or dM.Visible == false or not z:FindFirstChild("HumanoidRootPart")
+BringMob = false
+                        _G.FastAttack = false
 									end
 								end
 							end
@@ -600,16 +628,16 @@ function Auto_Farm_Level_Fast()
 							PosMon = z.HumanoidRootPart.CFrame;
 							z.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
 							z.HumanoidRootPart.Transparency = 1;
-							aw(z.HumanoidRootPart.CFrame * MethodFarm)
+							Tween(z.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
 							if not _G.AutoFarm or not _G.Auto_Farm_LevelO or _G.Auto_Farm_Level or _G.Auto_Farm_LevelO or _G.SuperFastAttack then
 								_G.FastAttack = true
 							end
 						until not z.Parent or not _G.AutoFarm or z.Humanoid.Health < 0;
-						aw(CFrameMon)
+						Tween(CFrameMon)
 					end
 				else
 					BringMob = false;
-					aw(CFrameMon)
+					Tween(CFrameMon)
 				end
 			end
 		elseif dL >= 70 and dL <= 310 then
