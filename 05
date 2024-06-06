@@ -518,31 +518,6 @@ for y, z in pairs(game.ReplicatedStorage:GetChildren()) do
 	end
 end;
 
-task.spawn(function()
-	while _G.FastAttack do
-		wait(0)
-		require(game.ReplicatedStorage.Util.CameraShaker):Stop()
-		Bruh = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
-		Ryu = debug.getupvalues(Bruh)[2]
-		task.wait(0.04)
-		if typeof(Ryu) == "table" then
-			pcall(function()
-				Ryu.activeController.timeToNextAttack = 0;
-				Ryu.activeController.timeToNextAttack = math.huge ^ math.huge ^ math.huge;
-				Ryu.activeController.active = false;
-				Ryu.activeController.timeToNextBlock = 0;
-				Ryu.activeController.focusStart = 1655503339.0980349;
-				Ryu.activeController.blocking = false;
-				Ryu.activeController.attacking = false;
-				Ryu.activeController.hitboxMagnitude = 200;
-				Ryu.activeController.humanoid.AutoRotate = true;
-				Ryu.activeController.increment = 1 + 1 / 0.5
-			end)
-		end
-	end
-end)
-
-
 spawn(function()
 	game:GetService("RunService").Heartbeat:Connect(function()
 		pcall(function()
@@ -550,19 +525,37 @@ spawn(function()
 				for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 					if _G.AutoFarm and BringMob and v.Name == Mon and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 200 then
 						v.HumanoidRootPart.CFrame = PosMon
-                            v.Humanoid.JumpPower = 0
-                            v.Humanoid.WalkSpeed = 0
-                            v.HumanoidRootPart.Size = Vector3.new(60,60,60)
-                            v.HumanoidRootPart.Transparency = 1
-                            v.HumanoidRootPart.CanCollide = false
-                            v.Head.CanCollide = false
-                            v.Humanoid:ChangeState(11)
-                            v.Humanoid:ChangeState(14)
+						v.HumanoidRootPart.CanCollide = false
+						v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 					end
 				end
 			end
 		end)
 	end)
+end)
+
+task.spawn(function()
+	while task.wait() do
+		pcall(function()
+			if BringMob then
+				for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+					if not string.find(v.Name, "Boss") and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 300 then
+						v.HumanoidRootPart.CFrame = PosMon
+						v.Humanoid.JumpPower = 0
+						v.Humanoid.WalkSpeed = 0
+						v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+						v.HumanoidRootPart.Transparency = 1
+						v.HumanoidRootPart.CanCollide = false
+						v.Head.CanCollide = false
+						v.Humanoid:ChangeState(11)
+						v.Humanoid:ChangeState(14)
+						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+					end
+				end
+			end
+		end)
+	end
 end)
 
 function EquipWeapon(B)
