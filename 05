@@ -2,9 +2,9 @@ repeat wait() until game:IsLoaded()
 
 _G.Settings = {
 
-SelectWeapon = 1,
-FastType = 1,
-AutoFarm = true,
+SelectWeapon = "Melee",
+FastType = "Normal",
+AutoFarm = false,
 AutoFarmFast = true,
 FastAttack = true,
 BringMob = true
@@ -89,7 +89,7 @@ task.spawn(function()
     game:GetService("RunService").Stepped:Connect(function()
         pcall(function()
             if _G.AutoFarm or _G.AutoFarmFast then
- if syn then
+                 if syn then
                     setfflag("HumanoidParallelRemoveNoPhysics","false")
                     setfflag("HumanoidParallelRemoveNoPhysicsNoSimulate2","false")
                     game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
@@ -153,6 +153,7 @@ function Click()
     end)
 end
 
+-- Place ID
 
 if game.PlaceId == 2753915549 then
         W = true
@@ -160,7 +161,9 @@ if game.PlaceId == 2753915549 then
         W2 = true
     elseif game.PlaceId == 7449423635 then
         W3 = true
-    end
+end
+
+-- Quest [Lv.1 to MAX]
 
 local O = Instance.new("Folder", workspace)
 O.Name = "EnemySpawns"
@@ -275,12 +278,12 @@ local function Q()
 		end
 	end;
 	if R >= 375 and R <= 399 then
-		if _G.AutoFarm and (NPCPosition.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
+		if _G.Settings.AutoFarm and (NPCPosition.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
 			game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance", Vector3.new(61163.8515625, 11.6796875, 1819.7841796875))
 		end
 	end;
 	if R >= 400 and R <= 449 then
-		if _G.AutoFarm and (NPCPosition.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
+		if _G.Settings.AutoFarm and (NPCPosition.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
 			game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance", Vector3.new(61163.8515625, 11.6796875, 1819.7841796875))
 		end
 	end;
@@ -364,6 +367,8 @@ local function Q()
 		[9] = MobCFrameNuber
 	}
 end;
+
+-- Fast Attack
 
 local a1 = require(game:GetService("Players").LocalPlayer.PlayerScripts:WaitForChild("CombatFramework"))
 local a2 = getupvalues(a1)[2]
@@ -454,19 +459,19 @@ coroutine.wrap(function()
 		local a8 = a2.activeController;
 		if a8 and a8.equipped then
 			task.wait(0.04)
-			if FastAttack or _G.FastAttack then
+			if FastAttack or _G.Settings.FastAttack then
 				yakmefan()
-				if _G.FastType == "Normal" then
+				if _G.Settings.FastType == "Normal" then
 					if tick() - a6 > .9 then
 						wait(.1)
 						a6 = tick()
 					end
-				elseif _G.FastType == "Fast" then
+				elseif _G.Settings.FastType == "Fast" then
 					if tick() - a6 > 1.5 then
 						wait(.01)
 						a6 = tick()
 					end
-				elseif _G.FastType == "Slow" then
+				elseif _G.Settings.FastType == "Slow" then
 					if tick() - a6 > .3 then
 						wait(.7)
 						a6 = tick()
@@ -478,25 +483,27 @@ coroutine.wrap(function()
 	end
 end)()
 local en = game.Players.LocalPlayer.Data.Level.Value;
-if en >= 15 and en <= 70 and _G.AutoFarmFast then
-	_G.FastType = "Slow"
+if en >= 15 and en <= 70 and _G.Settings.AutoFarmFast then
+	_G.Settings.FastType = "Slow"
 elseif en >= 70 then
-	_G.FastType = "Fast"
+	_G.Settings.FastType = "Fast"
 end;
 for y, z in pairs(game.ReplicatedStorage:GetChildren()) do
 	if z.Name == "Cake Prince" or z.Name == "Dough King" or z.Name == "Cyborg" or z.Name == "The Gorilla King" or z.Name == "Wysper" or z.Name == "Thunder God" or z.Name == "Mob Leader" or z.Name == "Bobby" or z.Name == "Saber Expert" or z.Name == "Warden" or z.Name == "Chief Warden" or z.Name == "Swan" or z.Name == "Magma Admiral" or z.Name == "Fishman Lord" or z.Name == "Wysper" or z.Name == "Ice Admiral" or z.Name == "Diamond" or z.Name == "Jeremy" or z.Name == "Fajita" or z.Name == "Don Swan" or z.Name == "Smoke Admiral" or z.Name == "Awakened Ice Admiral" or z.Name == "Tide Keeper" or z.Name == "Darkbeard" or z.Name == "Stone" or z.Name == "Island Empress" or z.Name == "Kilo Admiral" or z.Name == "Captain Elephant" or z.Name == "Beautiful Pirate" or z.Name == "Longma" or z.Name == "Cake Queen" or z.Name == "Greybeard" or z.Name == "Order" or z.Name == "Cursed Captain" or z.Name == "Soul Reaper" or z.Name == "Rip indra" or z.Name == "Mihawk Boss" or z.Name == "Cake Prince" or z.Name == "Dough King" or z.Name == "Cursed Skeleton Boss" then
 		if (z.HumanoidRootPart.CFrame.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < 1000 then
-			_G.FastType = "Normal"
+		     _G.Settings.FastType = "Normal"
 		end
 	end
 end;
 
+-- Bring Mon
+
 spawn(function()
 	game:GetService("RunService").Heartbeat:Connect(function()
 		pcall(function()
-			if _G.BringMob then
+			if _G.Settings.BringMob then
 				for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-					if _G.AutoFarm and BringMob and v.Name == Mon and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 200 then
+					if _G.Settings.AutoFarm and BringMob and v.Name == Mon and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 200 then
 						v.HumanoidRootPart.CFrame = PosMon
 						v.HumanoidRootPart.CanCollide = false
 						v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
@@ -531,6 +538,8 @@ task.spawn(function()
 	end
 end)
 
+-- Click & Effects
+
 game:GetService("Players").LocalPlayer.Idled:connect(function()
     game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
     wait(1)
@@ -548,6 +557,8 @@ spawn(function()
         end
     end
 end)
+
+-- Weapon
 
 function EquipWeapon(B)
 	pcall(function()
@@ -645,7 +656,6 @@ spawn(function()
 												game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
 											else
 												PosMon = v.HumanoidRootPart.CFrame
-                                                                                                FastBring = v.Name
 												v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
 												v.HumanoidRootPart.CanCollide = false
 												v.Humanoid.WalkSpeed = 0
@@ -659,7 +669,7 @@ spawn(function()
 												end
 											end
 										until not _G.Settings.AutoFarm or not v.Parent or v.Humanoid.Health <= 0 or dM.Visible == false or not v:FindFirstChild("HumanoidRootPart")
-BringMob = false
+                                                                                BringMob = false
 									end
 								end
 							end
@@ -676,7 +686,7 @@ BringMob = false
 									wait(0.5)
 								end
 							else
-								if not _G.AutoFarmFast then
+								if not _G.Settings.AutoFarmFast then
 									if AttackRandomType_MonCFrame == 1 then
 										Tween(Q()[7][1] * CFrame.new(0, 30, 20))
 									elseif AttackRandomType_MonCFrame == 2 then
