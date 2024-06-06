@@ -549,10 +549,15 @@ spawn(function()
 			if _G.BringMob then
 				for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 					if _G.AutoFarm and BringMob and v.Name == Mon and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 200 then
-						v.HumanoidRootPart.CFrame = PosMon;
-						v.HumanoidRootPart.CanCollide = false;
-						v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
-						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+						v.HumanoidRootPart.CFrame = PosMon
+                            v.Humanoid.JumpPower = 0
+                            v.Humanoid.WalkSpeed = 0
+                            v.HumanoidRootPart.Size = Vector3.new(60,60,60)
+                            v.HumanoidRootPart.Transparency = 1
+                            v.HumanoidRootPart.CanCollide = false
+                            v.Head.CanCollide = false
+                            v.Humanoid:ChangeState(11)
+                            v.Humanoid:ChangeState(14)
 					end
 				end
 			end
