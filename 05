@@ -684,3 +684,8 @@ if value == false then
     end
 end)
 end
+
+AutoFarm:Toggle("Bypass TP",_G.BypassTP,function(value)
+_G.BypassTP = value
+end)
+
