@@ -88,7 +88,7 @@ end
 task.spawn(function()
     game:GetService("RunService").Stepped:Connect(function()
         pcall(function()
-            if _G.AutoFarm or _G.AutoFarmFast then
+            if _G.Settings.AutoFarm or _G.Settings.AutoFarmFast then
                  if syn then
                     setfflag("HumanoidParallelRemoveNoPhysics","false")
                     setfflag("HumanoidParallelRemoveNoPhysicsNoSimulate2","false")
@@ -649,7 +649,7 @@ spawn(function()
 								if v.Name == Q()[3] then
 									if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
 										repeat task.wait()
-											if _G.Auto_CFrame then
+											if _G.Settings.AutoFarm then
 												dK = 1
 											end;
 											if not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, Q()[6]) then
@@ -673,7 +673,7 @@ spawn(function()
 								end
 							end
 						else
-							if _G.Auto_CFrame and not _G.AutoFarmFast then
+							if _G.Settings.AutoFarm and not _G.Settings.AutoFarmFast then
 								Tween(Q()[7][dK] * CFrame.new(0,30,0))
 								if (Q()[7][dK].Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 50 then
 									if dK == nil or dK == '' then
