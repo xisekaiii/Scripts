@@ -475,7 +475,6 @@ function yakmefan()
 		end
 	end
 end;
-
 	
 coroutine.wrap(function()
 	while wait(0) do
@@ -686,7 +685,6 @@ spawn(function()
 											end
 										until not _G.AutoFarm or not v.Parent or v.Humanoid.Health <= 0 or dM.Visible == false or not v:FindFirstChild("HumanoidRootPart")
 BringMob = false
-                       _G.FastAttack = false
 									end
 								end
 							end
@@ -827,13 +825,13 @@ end)
 end
 
 AutoFarm:Toggle("Bypass TP",_G.BypassTP,function(value)
-_G.BypassTP = value
+    _G.BypassTP = value
 end)
 
 AutoFarm:Toggle("Bring Mob",_G.BringMob,function(value)
-_G.BringMob = value
+    _G.BringMob = value
 end)
 
 AutoFarm:Toggle("Fast Attack",_G.FastAttack,function(value)
-_G.FastAttack = value
+    _G.FastAttack = value
 end)
