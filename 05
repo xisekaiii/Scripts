@@ -476,23 +476,7 @@ function yakmefan()
 	end
 end;
 
-	while task.wait(0) do
-		pcall(function()
-			if _G.Method == "Behind" then
-				MethodFarm = CFrame.new(0, 0, _G.DistanceAutoFarm)
-			elseif _G.Method == "Below" then
-				MethodFarm = CFrame.new(0, -_G.DistanceAutoFarm, 0) * CFrame.Angles(math.rad(90), 0, 0)
-			elseif _G.Method == "Upper" then
-				MethodFarm = CFrame.new(0, _G.DistanceAutoFarm, 0) * CFrame.Angles(math.rad(0), 0, 0)
-			else
-				MethodFarm = CFrame.new(0, _G.DistanceAutoFarm, 0)
-			end
-		end)
-	end
-end)
-dm:Toggle("FastAttack", true, function(ei)
-	_G.FastAttack = value
-end)
+	
 coroutine.wrap(function()
 	while wait(0) do
 		local a8 = a2.activeController;
