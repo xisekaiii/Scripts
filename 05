@@ -649,7 +649,7 @@ spawn(function()
 								if v.Name == Q()[3] then
 									if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
 										repeat task.wait()
-											if _G.Pakyu then
+											if _G.Auto_CFrame then
 												dK = 1
 											end;
 											if not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, Q()[6]) then
