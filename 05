@@ -1,113 +1,86 @@
 repeat wait() until game:IsLoaded()
 
+_G.Settings = {
 
--- [Tween Functions #2 ]
+SelectWeapon = 1,
+FastType = 1,
+AutoFarm = true,
+AutoFarmFast = true,
+FastAttack = true,
+BringMob = true
 
-local function Tween(...)
-	local RealtargetPos = {...}
-	local targetPos = RealtargetPos[1]
-	local RealTarget
-	if type(targetPos) == "vector" then
-		RealTarget = CFrame.new(targetPos)
-	elseif type(targetPos) == "userdata" then
-		RealTarget = targetPos
-	elseif type(targetPos) == "number" then
-		RealTarget = CFrame.new(unpack(RealtargetPos))
-	end
+}
 
-	if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health == 0 then 
-        if tween then 
-            tween:Cancel() 
-        end 
-        repeat task.wait() until game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health > 0 wait(0.2) 
-    end
-
-	local tweenfunc = {}
-	local Distance = (RealTarget.Position - game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude
-	if Distance < 1000 then
-		Speed = 315
-	elseif Distance >= 1000 then
-		Speed = 300
-	end
-
-    if _G.BypassTP then
-		if Distance > 3000 and not _G.Settings.Melee["Auto God Human"] and not _G.Settings.Raids["Full Auto Raids"] and not _G.Settings.Players["Start Kill Players"] and not (game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Backpack:FindFirstChild("God's Chalice") or game.Players.LocalPlayer.Character:FindFirstChild("God's Chalice") or game.Players.LocalPlayer.Backpack:FindFirstChild("Hallow Essence") or game.Players.LocalPlayer.Character:FindFirstChild("Hallow Essence") or game.Players.LocalPlayer.Character:FindFirstChild("Sweet Chalice") or game.Players.LocalPlayer.Backpack:FindFirstChild("Sweet Chalice")) and not (Monster == "Fishman Commando [Lv. 400]" or Monster == "Fishman Warrior [Lv. 375]") then
-			pcall(function()
-				tween:Cancel()
-				peachtween = false
-
-				if game:GetService("Players")["LocalPlayer"].Data:FindFirstChild("SpawnPoint").Value == tostring(GetIsLand(RealTarget)) then 
-					wait(.1)
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TeleportToSpawn")
-				elseif game:GetService("Players")["LocalPlayer"].Data:FindFirstChild("LastSpawnPoint").Value == tostring(GetIsLand(RealTarget)) then
-					game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(15)
-					wait(0.1)
-					repeat task.wait() until game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Health > 0
-				else
-					if game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Health > 0 then
-						if peachtween == false then
-							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = RealTarget
-						end
-						peachtween = true
-					end
-					wait(.08)
-					game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(15)
-					repeat task.wait() until game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Health > 0
-					wait(.1)
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
-				end
-				wait(0.2)
-
-				return
-			end)
+function LoadSettings()
+	if readfile and writefile and isfile and isfolder then
+		if not isfolder("HubHubKa") then
+			makefolder("HubHubKa")
+		end;
+		if not isfolder("HubHubKa/Blox Fruits/") then
+			makefolder("HubHubKa/Blox Fruits/")
+		end;
+		if not isfile("HubHubKa/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json") then
+			writefile("HubHubKa/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json", game:GetService("HttpService"):JSONEncode(_G.Settings))
+		else
+			local x = game:GetService("HttpService"):JSONDecode(readfile("HubHubKa/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json"))
+			for y, z in pairs(x) do
+				_G.Settings[y] = z
+			end
 		end
+	else
+		return
 	end
+end;
+function SaveSettings()
+	if readfile and writefile and isfile and isfolder then
+		if not isfile("HubHubKa/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json") then
+			LoadSettings()
+		else
+			local x = game:GetService("HttpService"):JSONDecode(readfile("HubHubKa/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json"))
+			local A = {}
+			for y, z in pairs(_G.Settings) do
+				A[y] = z
+			end;
+			writefile("HubHubKq/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json", game:GetService("HttpService"):JSONEncode(A))
+		end
+	else
+		return
+	end
+end;
+LoadSettings()
 
-	local tween_s = game:service("TweenService")
-	local info = TweenInfo.new((RealTarget.Position - game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude/Speed,Enum.EasingStyle.Linear)
-	local tweenw, err = pcall(function()
-		tween = tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"],info,{CFrame = RealTarget})
-		tween:Play()
+function Tween(aF)
+	pcall(function()
+		game.Players.LocalPlayer.Character.Humanoid.Sit = false;
+		game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
 	end)
-
-	function tweenfunc:Stop()
-		tween:Cancel()
-	end 
-
-	function tweenfunc:Wait()
-		tween.Completed:Wait()
-	end 
-
-	return tweenfunc
-end
-
-function Tween2(Peach)
-	if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health <= 0 or not game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid") then 
-        tween:Cancel() 
-        repeat task.wait() until game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid") and game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Health > 0 wait(7) return 
-    end
-	if (game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - Peach.Position).Magnitude <= 150 then
+	if (game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - aF.Position).Magnitude <= 200 then
 		pcall(function()
-			tween:Cancel()
-
-			game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.CFrame = Peach
-
-			return
+			tweenz:Cancel()
 		end)
+		game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.CFrame = aF
+	else
+		local ay = game:service"TweenService"
+		local az = TweenInfo.new((game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - aF.Position).Magnitude / 325, Enum.EasingStyle.Linear)
+		l, err = pcall(function()
+			if not game.Players.LocalPlayer.Character:FindFirstChild("Highlight") then
+				local _ = Instance.new("Highlight")
+				_.FillColor = Color3.new(0.266667, 0.854902, 0.921569)
+				_.OutlineColor = Color3.new(0.266667, 0.854902, 0.921569)
+				_.Parent = game.Players.LocalPlayer.Character
+			end;
+			tweenz = ay:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], az, {
+				CFrame = aF
+			})
+			tweenz:Play()
+		end)
+		if not l then
+			return err
+		end
+	end;
+	function _TweenCanCle()
+		tweenz:Cancel()
 	end
-
-	local tween_s = game:service("TweenService")
-	local info = TweenInfo.new((game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - Peach.Position).Magnitude/325,Enum.EasingStyle.Linear)
-	tween = tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"],info,{CFrame = Peach})
-	tween:Play()
-
-	local tweenfunc = {}
-
-	function tweenfunc:Stop()
-		tween:Cancel()
-	end
-
-	return tweenfunc
 end
 
 -- [ Body Gyro ]
@@ -558,6 +531,24 @@ task.spawn(function()
 	end
 end)
 
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+    game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+    wait(1)
+    game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
+
+spawn(function()
+    while task.wait() do
+        for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"]:GetChildren()) do
+            pcall(function()
+                if v.Name == ("CurvedRing") or v.Name == ("SlashHit") or v.Name == ("SwordSlash") or v.Name == ("SlashTail") or v.Name == ("Sounds") then
+                    v:Destroy()
+                end
+            end)
+        end
+    end
+end)
+
 function EquipWeapon(B)
 	pcall(function()
 		if game.Players.LocalPlayer.Backpack:FindFirstChild(B) then
@@ -578,56 +569,42 @@ local AutoFarm = serv:Channel("Main", "http://www.roblox.com/asset/?id=704039185
 
 Weapon = {
 	"Melee",
+	"Fruit",
 	"Sword",
-	"Fruit"
+        "Gun"
 }
 AutoFarm:Dropdown("Select Weapon", Weapon, function(value)
-	SelectWeapon = value
+    _G.Settings.SelectWeapon = value
+    SaveSettings()
 end)
 
-task.spawn(function()
-	while wait() do
-		pcall(function()
-			if SelectWeapon == "Melee" then
-				for y, z in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-					if z.ToolTip == "Melee" then
-						if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(z.Name)) then
-							_G.SelectWeapon = z.Name
-						end
-					end
-				end
-			elseif SelectWeapon == "Sword" then
-				for y, z in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-					if z.ToolTip == "Sword" then
-						if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(z.Name)) then
-							_G.SelectWeapon = z.Name
-						end
-					end
-				end
-			elseif SelectWeapon == "Fruit" then
-				for y, z in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-					if z.ToolTip == "Blox Fruit" then
-						if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(z.Name)) then
-							_G.SelectWeapon = z.Name
-						end
-					end
-				end
-			else
-				for y, z in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-					if z.ToolTip == "Melee" then
-						if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(z.Name)) then
-							_G.SelectWeapon = z.Name
-						end
-					end
-				end
-			end
-		end)
-	end
+spawn(function()
+    while task.wait() do
+        pcall(function()
+            for i,v in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+                if v:IsA("Tool") then
+                    if v.ToolTip == _G.Settings.SelectWeapon then
+                        _G.SelectWeapon = v.Name
+                    end
+                end
+            end
+        end)
+    end
 end)
-	    
 
-AutoFarm:Toggle("Auto Farm Level",_G.AutoFarm,function(value)
-   _G.AutoFarm = value
+FastDelay = {
+	"Slow",
+	"Normal",
+	"Fast"
+}
+AutoFarm:Dropdown("Fast Attack Delay", FastDelay, function(value)
+	_G.Settings.FastType = value
+SaveSettings()
+end)	    
+
+AutoFarm:Toggle("Auto Farm Level",_G.Settings.AutoFarm,function(value)
+   _G.Settings.AutoFarm = value
+SaveSettings()
 if value == false then
         wait()
         Tween(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame)
@@ -648,10 +625,10 @@ spawn(function()
 		local dL = game.Players.LocalPlayer.Data.Level.Value;
 		local dM = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest;
 		pcall(function()
-			if _G.AutoFarm then
-				if _G.AutoFarmFast and (dL >= 15 and dL <= 300) then
+			if _G.Settings.AutoFarm then
+				if _G.Settings.AutoFarmFast and (dL >= 15 and dL <= 300) then
 					if dL >= 15 and dL <= 300 then
-						Auto_Farm_Level_Fast()
+						      Auto_Farm_Level_Fast()
 						return
 					end
 				else
@@ -661,7 +638,7 @@ spawn(function()
 								if v.Name == Q()[3] then
 									if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
 										repeat task.wait()
-											if _G.Auto_CFrame then
+											if _G.Settings.AutoFarm then
 												dK = 1
 											end;
 											if not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, Q()[6]) then
@@ -677,17 +654,17 @@ spawn(function()
 										                EquipWeapon(_G.SelectWeapon)
 												v.HumanoidRootPart.Transparency = 1
 												Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
-												if not _G.AutoFarm then
-													_G.FastAttack = true
+												if not _G.Settings.AutoFarm then
+													_G.Settings.FastAttack = true
 												end
 											end
-										until not _G.AutoFarm or not v.Parent or v.Humanoid.Health <= 0 or dM.Visible == false or not v:FindFirstChild("HumanoidRootPart")
+										until not _G.Settings.AutoFarm or not v.Parent or v.Humanoid.Health <= 0 or dM.Visible == false or not v:FindFirstChild("HumanoidRootPart")
 BringMob = false
 									end
 								end
 							end
 						else
-							if _G.AutoFarm and not _G.AutoFarmFast then
+							if _G.Settings.AutoFarm and not _G.Settings.AutoFarmFast then
 								Tween(Q()[7][dK] * CFrame.new(0,30,0))
 								if (Q()[7][dK].Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 50 then
 									if dK == nil or dK == '' then
@@ -744,7 +721,7 @@ function Auto_Farm_Level_Fast()
 		local dL = game.Players.LocalPlayer.Data.Level.Value;
 		local dM = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest;
 		CFrameMon = CFrame.new(-7719.66895, 5611.42334, -1445.98816, 0.906745553, -1.43169192e-08, -0.421678245, 5.939971e-08, 1, 9.37764852e-08, 0.421678245, -1.10078972e-07, 0.906745553)
-		if _G.AutoFarm and dL >= 15 and dL <= 69 and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 1000 then
+		if _G.Settings.AutoFarm and dL >= 15 and dL <= 69 and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 1000 then
 			game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance", Vector3.new(-7894.6176757813, 5547.1416015625, -380.29119873047))
 		end;
 		if dL >= 15 and dL <= 69 then
@@ -767,10 +744,10 @@ function Auto_Farm_Level_Fast()
 							v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
 							v.HumanoidRootPart.Transparency = 1
 							Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
-							if not _G.AutoFarm then
-								_G.FastAttack = true
+							if not _G.Settings.AutoFarm then
+								_G.Settings.FastAttack = true
 							end
-						until not v.Parent or not _G.AutoFarm or v.Humanoid.Health < 0
+						until not v.Parent or not _G.Settings.AutoFarm or v.Humanoid.Health < 0
 						Tween(CFrameMon)
 					end
 				else
@@ -801,8 +778,8 @@ function Auto_Farm_Level_Fast()
 							game:service('VirtualInputManager'):SendKeyEvent(true, "Z", false, game)
 							game:service('VirtualInputManager'):SendKeyEvent(false, "Z", false, game)
 						end;
-						if not _G.AutoFarm then
-							_G.FastAttack = true
+						if not _G.Settings.AutoFarm then
+							_G.Settings.FastAttack = true
 						end
 					until game.Players[getgenv().SelectPly].Character.Humanoid.Health <= 0 or not Auto_Farm_Level_Fast() or dL >= 310
 				end
@@ -812,8 +789,9 @@ function Auto_Farm_Level_Fast()
 end;
 
 if W then
-AutoFarm:Toggle("Auto Farm Fast 1-300",_G.AutoFarmFast,function(value)
-   _G.AutoFarmFast = value
+AutoFarm:Toggle("Auto Farm Fast 1-300",_G.Settings.AutoFarmFast,function(value)
+   _G.Settings.AutoFarmFast = value
+SaveSettings()
 if value == false then
         wait()
         Tween(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame)
@@ -822,14 +800,12 @@ if value == false then
 end)
 end
 
-AutoFarm:Toggle("Bypass TP",_G.BypassTP,function(value)
-    _G.BypassTP = value
+AutoFarm:Toggle("Bring Mob",_G.Settings.BringMob,function(value)
+    _G.Settings.BringMob = value
+SaveSettings()
 end)
 
-AutoFarm:Toggle("Bring Mob",_G.BringMob,function(value)
-    _G.BringMob = value
-end)
-
-AutoFarm:Toggle("Fast Attack",_G.FastAttack,function(value)
-    _G.FastAttack = value
+AutoFarm:Toggle("Fast Attack",_G.Settings.FastAttack,function(value)
+    _G.Settings.FastAttack = value
+SaveSettings()
 end)
