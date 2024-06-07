@@ -4,30 +4,6 @@ repeat wait() until game:GetService("Players").LocalPlayer
 repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui
 repeat wait() until game:GetService("ReplicatedStorage").Effect.Container
 
-repeat task.wait()
-    pcall(function()
-        if _G.Team == "Pirates" then
-            for i,v in pairs({"MouseButton1Click","MouseButton1Down","Activated"}) do
-                for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton[v])) do
-                    v.Function()
-                end
-            end
-        elseif _G.Team == "Marines" then
-            for i,v in pairs({"MouseButton1Click","MouseButton1Down","Activated"}) do
-                for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Marines.Frame.ViewportFrame.TextButton[v])) do
-                    v.Function()
-                end
-            end
-        else
-            for i,v in pairs({"MouseButton1Click","MouseButton1Down","Activated"}) do
-                for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.PlayerGui.Main.ChooseTeam.Container.Pirates.Frame.ViewportFrame.TextButton[v])) do
-                    v.Function()
-                end
-            end
-        end
-    end)
-until game:GetService("Players").LocalPlayer.Neutral == false
-
 _G.Settings = {
 
 SelectWeapon = "Melee",
@@ -598,7 +574,7 @@ spawn(function()
 		pcall(function()
 			if _G.Settings.BringMob then
 				for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-					if _G.Settings.AutoFarm and BringMob and v.Name == Mon and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 200 then
+					if _G.Settings.AutoFarm and v.Name == Mon and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 200 then
 						v.HumanoidRootPart.CFrame = PosMon
 						v.HumanoidRootPart.CanCollide = false
 						v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
@@ -613,7 +589,7 @@ end)
 task.spawn(function()
 	while task.wait() do
 		pcall(function()
-			if BringMob then
+			if _G.Settings.BringMob then
 				for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
 					if not string.find(v.Name, "Boss") and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 300 then
 						v.HumanoidRootPart.CFrame = PosMon
@@ -755,7 +731,6 @@ spawn(function()
 												v.HumanoidRootPart.CanCollide = false
 												v.Humanoid.WalkSpeed = 0
 												v.Head.CanCollide = false
-												BringMob = true
 										                EquipWeapon(_G.SelectWeapon)
 												v.HumanoidRootPart.Transparency = 1
 												Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
@@ -837,7 +812,6 @@ function Auto_Farm_Level_Fast()
 							v.HumanoidRootPart.CanCollide = false
 							v.Humanoid.WalkSpeed = 0
 							v.Head.CanCollide = false
-							BringMob = true
 							EquipWeapon(_G.SelectWeapon)
 							if dL >= 70 and dL <= 310 then
 								if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
