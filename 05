@@ -249,19 +249,19 @@ O.Name = "EnemySpawns"
 for i,v in pairs(workspace._WorldOrigin.EnemySpawns:GetChildren()) do
 	if v:IsA("Part") then
 		local P = v:Clone()
-		local J = string.gsub(z.Name, "Lv. ", "")
+		local J = string.gsub(v.Name, "Lv. ", "")
 		local K = string.gsub(J, "[%[%]]", "")
 		local L = string.gsub(K, "%d+", "")
 		local M = string.gsub(L, "%s+", "")
 		P.Name = M
-		P.Parent = workspace.EnemySpawns;
+		P.Parent = workspace.EnemySpawns
 		P.Anchored = true
 	end
 end
 for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
 	if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") then
 		local P = v.HumanoidRootPart:Clone()
-		local J = string.gsub(z.Name, "Lv. ", "")
+		local J = string.gsub(v.Name, "Lv. ", "")
 		local K = string.gsub(J, "[%[%]]", "")
 		local L = string.gsub(K, "%d+", "")
 		local M = string.gsub(L, "%s+", "")
@@ -273,7 +273,7 @@ end
 for i,v in pairs(game.ReplicatedStorage:GetChildren()) do
 	if v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") then
 		local P = v.HumanoidRootPart:Clone()
-		local J = string.gsub(z.Name, "Lv. ", "")
+		local J = string.gsub(v.Name, "Lv. ", "")
 		local K = string.gsub(J, "[%[%]]", "")
 		local L = string.gsub(K, "%d+", "")
 		local M = string.gsub(L, "%s+", "")
@@ -288,14 +288,14 @@ local function Q()
 		if tostring(game.Players.LocalPlayer.Team) == "Marines" then
 			MobName = "Trainee"
 			QuestName = "MarineQuest"
-			QuestLevel = 1;
+			QuestLevel = 1
 			Mon = "Trainee"
 			NPCPosition = CFrame.new(-2709.67944, 24.5206585, 2104.24585, -0.744724929, -3.97967455e-08, -0.667371571, 4.32403588e-08, 1, -1.07884304e-07, 0.667371571, -1.09201515e-07, -0.744724929)
 		elseif tostring(game.Players.LocalPlayer.Team) == "Pirates" then
 			MobName = "Bandit"
 			Mon = "Bandit"
 			QuestName = "BanditQuest1"
-			QuestLevel = 1;
+			QuestLevel = 1
 			NPCPosition = CFrame.new(1059.99731, 16.9222069, 1549.28162, -0.95466274, 7.29721794e-09, 0.297689587, 1.05190106e-08, 1, 9.22064114e-09, -0.297689587, 1.19340022e-08, -0.95466274)
 		end;
 		return {
@@ -428,7 +428,7 @@ local function Q()
 	local M = string.gsub(L, "%s+", "")
 	for i,v in pairs(game.workspace.EnemySpawns:GetChildren()) do
 		if v.Name == M then
-			table.insert(S, z.CFrame)
+			table.insert(S, v.CFrame)
 		else
 			table.insert(S, nil)
 		end
