@@ -25,7 +25,7 @@ function LoadSettings()
 		else
 			local x = game:GetService("HttpService"):JSONDecode(readfile("Elzkeyyy/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json"))
 			for i,v in pairs(x) do
-				_G.Settings[y] = v
+				_G.Settings[i] = v
 			end
 		end
 	else
@@ -40,7 +40,7 @@ function SaveSettings()
 			local x = game:GetService("HttpService"):JSONDecode(readfile("Elzkeyyy/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json"))
 			local A = {}
 			for i,v in pairs(_G.Settings) do
-				A[y] = v
+				A[i] = v
 			end
 			writefile("Elzkeyyy/Blox Fruits/" .. game.Players.LocalPlayer.Name .. ".json", game:GetService("HttpService"):JSONEncode(A))
 		end
