@@ -204,19 +204,6 @@ task.spawn(function()
     end)
 end)
 
--- [ Bring Mob Function ]
-
-function MonPosition(object)
-    if monoldpos then
-        return monoldpos(object)
-    else
-        if (object.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300 then
-            return true
-        end
-        return false
-    end
-end
-
 -- [ Click Functions ]
 
 function ClickCamera()
@@ -228,7 +215,7 @@ end
 
 function Click()
     pcall(function()
-        game:GetService("VirtualUser"):CaptureController()
+        game:GetService("VirtualUser":CaptureController()
         game:GetService("VirtualUser"):Button1Down(Vector2.new(1280,672))
     end)
 end
