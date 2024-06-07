@@ -703,14 +703,14 @@ if value == false then
     end
 end)
 
-AttackRandomType_MonCFrame = 1;
+AttackRandomType_MonCFrame = 1
 spawn(function()
 	while wait() do
 		AttackRandomType_MonCFrame = math.random(1, 5)
 		wait(0.3)
 	end
 end)
-local dK = 1;
+local dK = 1
 spawn(function()
 	while wait() do
 		local dL = game.Players.LocalPlayer.Data.Level.Value;
@@ -744,7 +744,7 @@ spawn(function()
 										                EquipWeapon(_G.SelectWeapon)
 												v.HumanoidRootPart.Transparency = 1
 												Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
-												if not _G.Settings.AutoFarm then
+												if _G.Settings.AutoFarm then
 													_G.Settings.FastAttack = true
 												end
 											end
@@ -833,7 +833,7 @@ function Auto_Farm_Level_Fast()
 							v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
 							v.HumanoidRootPart.Transparency = 1
 							Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
-							if not _G.Settings.AutoFarm then
+							if _G.Settings.AutoFarm then
 								_G.Settings.FastAttack = true
 							end
 						until not v.Parent or not _G.Settings.AutoFarm or v.Humanoid.Health < 0
@@ -867,7 +867,7 @@ function Auto_Farm_Level_Fast()
 							game:service('VirtualInputManager'):SendKeyEvent(true, "Z", false, game)
 							game:service('VirtualInputManager'):SendKeyEvent(false, "Z", false, game)
 						end;
-						if not _G.Settings.AutoFarm then
+						if _G.Settings.AutoFarm then
 							_G.Settings.FastAttack = true
 						end
 					until game.Players[getgenv().SelectPly].Character.Humanoid.Health <= 0 or not Auto_Farm_Level_Fast() or dL >= 310
@@ -875,7 +875,7 @@ function Auto_Farm_Level_Fast()
 			end
 		end
 	end)
-end;
+end
 
 if W then
 AutoFarm:Toggle("Auto Farm Fast 1-300",_G.Settings.AutoFarmFast,function(value)
