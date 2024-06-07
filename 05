@@ -7,6 +7,7 @@ FastType = "Normal",
 AutoFarm = false,
 AutoFarmFast = true,
 FastAttack = true,
+BypassThatTP = true,
 BringMob = true
 
 }
@@ -49,38 +50,115 @@ function SaveSettings()
 end;
 LoadSettings()
 
-function Tween(aF)
-	pcall(function()
-		game.Players.LocalPlayer.Character.Humanoid.Sit = false;
-		game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
-	end)
-	if (game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - aF.Position).Magnitude <= 200 then
-		pcall(function()
-			tweenz:Cancel()
-		end)
-		game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.CFrame = aF
-	else
-		local ay = game:service"TweenService"
-		local az = TweenInfo.new((game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - aF.Position).Magnitude / 325, Enum.EasingStyle.Linear)
-		l, err = pcall(function()
-			if not game.Players.LocalPlayer.Character:FindFirstChild("Highlight") then
-				local _ = Instance.new("Highlight")
-				_.FillColor = Color3.new(0.266667, 0.854902, 0.921569)
-				_.OutlineColor = Color3.new(0.266667, 0.854902, 0.921569)
-				_.Parent = game.Players.LocalPlayer.Character
-			end;
-			tweenz = ay:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"], az, {
-				CFrame = aF
-			})
-			tweenz:Play()
-		end)
-		if not l then
-			return err
-		end
-	end;
-	function _TweenCanCle()
-		tweenz:Cancel()
+-- [ Tween Functions #1 ]
+
+local function GetIsLand(...)
+	local RealtargetPos = {...}
+	local targetPos = RealtargetPos[1]
+	local RealTarget
+	if type(targetPos) == "vector" then
+		RealTarget = targetPos
+	elseif type(targetPos) == "userdata" then
+		RealTarget = targetPos.Position
+	elseif type(targetPos) == "number" then
+		RealTarget = CFrame.new(unpack(RealtargetPos))
+		RealTarget = RealTarget.p
 	end
+
+	local ReturnValue
+	local CheckInOut = math.huge
+	if game.Players.LocalPlayer.Team then
+		for i,v in pairs(game:GetService("Workspace")._WorldOrigin.PlayerSpawns:FindFirstChild(tostring(game:GetService("Players").LocalPlayer.Team)):GetChildren()) do 
+			local ReMagnitude = (RealTarget - v:GetModelCFrame().p).Magnitude
+			if ReMagnitude < CheckInOut then
+				CheckInOut = ReMagnitude
+				ReturnValue = v.Name
+			end
+		end
+		if ReturnValue then
+			return ReturnValue
+		end 
+	end
+end
+
+-- [Tween Functions #2 ]
+
+local function Tween(...)
+	local RealtargetPos = {...}
+	local targetPos = RealtargetPos[1]
+	local RealTarget
+	if type(targetPos) == "vector" then
+		RealTarget = CFrame.new(targetPos)
+	elseif type(targetPos) == "userdata" then
+		RealTarget = targetPos
+	elseif type(targetPos) == "number" then
+		RealTarget = CFrame.new(unpack(RealtargetPos))
+	end
+
+	if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health == 0 then 
+        if tween then 
+            tween:Cancel() 
+        end 
+        repeat task.wait() until game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health > 0 wait(0.2) 
+    end
+
+	local tweenfunc = {}
+	local Distance = (RealTarget.Position - game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude
+	if Distance < 1000 then
+		Speed = 315
+	elseif Distance >= 1000 then
+		Speed = 300
+	end
+
+    if _G.Settings.BypassThatTP then
+		if Distance > 3000 and not _G.Settings.Melee["Auto God Human"] and not _G.Settings.Raids["Full Auto Raids"] and not _G.Settings.Players["Start Kill Players"] and not (game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Backpack:FindFirstChild("God's Chalice") or game.Players.LocalPlayer.Character:FindFirstChild("God's Chalice") or game.Players.LocalPlayer.Backpack:FindFirstChild("Hallow Essence") or game.Players.LocalPlayer.Character:FindFirstChild("Hallow Essence") or game.Players.LocalPlayer.Character:FindFirstChild("Sweet Chalice") or game.Players.LocalPlayer.Backpack:FindFirstChild("Sweet Chalice")) and not (Monster == "Fishman Commando [Lv. 400]" or Monster == "Fishman Warrior [Lv. 375]") then
+			pcall(function()
+				tween:Cancel()
+				peachtween = false
+
+				if game:GetService("Players")["LocalPlayer"].Data:FindFirstChild("SpawnPoint").Value == tostring(GetIsLand(RealTarget)) then 
+					wait(.1)
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TeleportToSpawn")
+				elseif game:GetService("Players")["LocalPlayer"].Data:FindFirstChild("LastSpawnPoint").Value == tostring(GetIsLand(RealTarget)) then
+					game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(15)
+					wait(0.1)
+					repeat task.wait() until game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Health > 0
+				else
+					if game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Health > 0 then
+						if peachtween == false then
+							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = RealTarget
+						end
+						peachtween = true
+					end
+					wait(.08)
+					game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(15)
+					repeat task.wait() until game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Health > 0
+					wait(.1)
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
+				end
+				wait(0.2)
+
+				return
+			end)
+		end
+	end
+
+	local tween_s = game:service("TweenService")
+	local info = TweenInfo.new((RealTarget.Position - game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude/Speed,Enum.EasingStyle.Linear)
+	local tweenw, err = pcall(function()
+		tween = tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"],info,{CFrame = RealTarget})
+		tween:Play()
+	end)
+
+	function tweenfunc:Stop()
+		tween:Cancel()
+	end 
+
+	function tweenfunc:Wait()
+		tween.Completed:Wait()
+	end 
+
+	return tweenfunc
 end
 
 -- [ Body Gyro ]
@@ -818,3 +896,9 @@ AutoFarm:Toggle("Fast Attack",_G.Settings.FastAttack,function(value)
     _G.Settings.FastAttack = value
 SaveSettings()
 end)
+
+AutoFarm:Toggle("Bypass TP",_G.Settings.BypassThatTP,function(value)
+    _G.Settings.BypassThatTP = value
+SaveSettings()
+end)
+
