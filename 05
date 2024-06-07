@@ -539,7 +539,7 @@ coroutine.wrap(function()
 		local a8 = a2.activeController;
 		if a8 and a8.equipped then
 			task.wait(0.04)
-			if FastAttack or _G.Settings.FastAttack then
+			if _G.Settings.FastAttack then
 				yakmefan()
 				if _G.Settings.FastType == "Normal" then
 					if tick() - a6 > .9 then
@@ -744,7 +744,7 @@ spawn(function()
 										                EquipWeapon(_G.SelectWeapon)
 												v.HumanoidRootPart.Transparency = 1
 												Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
-												if _G.Settings.AutoFarm then
+												if not _G.Settings.AutoFarm then
 													_G.Settings.FastAttack = true
 												end
 											end
@@ -833,7 +833,7 @@ function Auto_Farm_Level_Fast()
 							v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
 							v.HumanoidRootPart.Transparency = 1
 							Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
-							if _G.Settings.AutoFarm then
+							if not _G.Settings.AutoFarm then
 								_G.Settings.FastAttack = true
 							end
 						until not v.Parent or not _G.Settings.AutoFarm or v.Humanoid.Health < 0
@@ -867,7 +867,7 @@ function Auto_Farm_Level_Fast()
 							game:service('VirtualInputManager'):SendKeyEvent(true, "Z", false, game)
 							game:service('VirtualInputManager'):SendKeyEvent(false, "Z", false, game)
 						end;
-						if _G.Settings.AutoFarm then
+						if not _G.Settings.AutoFarm then
 							_G.Settings.FastAttack = true
 						end
 					until game.Players[getgenv().SelectPly].Character.Humanoid.Health <= 0 or not Auto_Farm_Level_Fast() or dL >= 310
