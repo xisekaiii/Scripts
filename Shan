@@ -238,7 +238,7 @@ for y, z in pairs(game.ReplicatedStorage:GetChildren()) do
     end
 end
 local function Q()
-    local R = game:GetService("Players").LocalPlayer.Data.Level.Value;
+    local R = game:GetService("Players").LocalPlayer.Data.Level.Value
     if R >= 1 and R <= 9 then
         if tostring(game.Players.LocalPlayer.Team) == "Marines" then
             MobName = "Trainee"
@@ -413,9 +413,9 @@ local a6 = tick()
 function CameraShaker()
 	local a7 = require(game.ReplicatedStorage.Util.CameraShaker)
 	a7:Stop()
-end;
+end
 function CurrentWeapon()
-	local a8 = a2.activeController;
+	local a8 = a2.activeController
 	local a9 = a8.blades[1]
 	if not a9 then
 		return game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Name
@@ -429,7 +429,7 @@ function CurrentWeapon()
 		return game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Name
 	end;
 	return a9
-end;
+end
 function getAllBladeHits(aa)
 	local ab = {}
 	local Client = game.Players.LocalPlayer;
@@ -452,7 +452,7 @@ function getAllBladeHits(aa)
 		end
 	end;
 	return ab
-end;
+end
 function yakmefan()
 	local a8 = a2.activeController;
 	if a8 and a8.equipped then
@@ -486,8 +486,8 @@ function yakmefan()
 			end
 		end
 	end
-end;
-	
+end
+
 coroutine.wrap(function()
 	while wait(0) do
 		local a8 = a2.activeController;
@@ -643,7 +643,7 @@ FastDelay = {
 	"Fast"
 }
 
-AutoFarm:Dropdown("Fast Attack Delay", FastDelay, function(value)
+AutoFarm:Dropdown("Fast Attack Delay",FastDelay,function(value)
 	_G.Settings.FastType = value
 SaveSettings()
 end)	    
@@ -669,13 +669,6 @@ if value == false then
     end
 end)
 
-AttackRandomType_MonCFrame = 1
-spawn(function()
-	while wait() do
-		AttackRandomType_MonCFrame = math.random(1, 5)
-		wait(0.3)
-	end
-end)
 local dK = 1
 
 spawn(function()
@@ -692,7 +685,7 @@ spawn(function()
                                     repeat task.wait()
                                         if _G.Settings.AutoFarm then
                                             dK = 1
-                                        end;
+                                        end
                                         if not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, Q()[6]) then
                                             game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
                                         else
@@ -720,7 +713,7 @@ spawn(function()
                                     dK = 1
                                 elseif dK >= #Q()[7] then
                                     dK = 1
-                                end;
+                                end
                                 dK = dK + 1
                                 wait(0.5)
                             end
