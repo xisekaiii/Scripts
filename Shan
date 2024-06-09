@@ -4,16 +4,58 @@ repeat wait() until game:GetService("Players").LocalPlayer
 repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui
 repeat wait() until game:GetService("ReplicatedStorage").Effect.Container
 
+assert(getrawmetatable)
+    grm = getrawmetatable(game)
+    setreadonly(grm, false)
+    old = grm.__namecall
+    grm.__namecall = newcclosure(function(self, ...)
+        local args = {...}
+        if tostring(args[1]) == "TeleportDetect" then
+            return
+        elseif tostring(args[1]) == "CHECKER_1" then
+            return
+        elseif tostring(args[1]) == "CHECKER" then
+            return
+        elseif tostring(args[1]) == "GUI_CHECK" then
+            return
+        elseif tostring(args[1]) == "OneMoreTime" then
+            return
+        elseif tostring(args[1]) == "checkingSPEED" then
+            return
+        elseif tostring(args[1]) == "BANREMOTE" then
+            return
+        elseif tostring(args[1]) == "PERMAIDBAN" then
+            return
+        elseif tostring(args[1]) == "KICKREMOTE" then
+            return
+        elseif tostring(args[1]) == "BR_KICKPC" then
+            return
+        elseif tostring(args[1]) == "BR_KICKMOBILE" then
+            return
+        end
+        return old(self, ...)
+end)
+
+getgenv().A = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib).wrapAttackAnimationAsync
+getgenv().B = require(game.Players.LocalPlayer.PlayerScripts.CombatFramework.Particle).play
+_G.setfflag = true
+spawn(function()
+    while wait() do
+        if _G.setfflag then
+            setfflag("AbuseReportScreenshot", "False")
+            setfflag("AbuseReportScreenshotPercentage", "0")
+        end
+    end
+end)
+
 _G.Settings = {
 
 SelectWeapon = "Melee",
 FastType = "Normal",
 AutoFarm = false,
-AutoFarmFast = false,
 BringMob = true,
 FastAttack = true,
-AutoHaki = true,
-BypassThatTP = true
+AutoHaki = true
 
 }
 
@@ -59,111 +101,31 @@ LoadSettings()
 
 -- [ Tween Functions #1 ]
 
-local function GetIsLand(...)
-	local RealtargetPos = {...}
-	local targetPos = RealtargetPos[1]
-	local RealTarget
-	if type(targetPos) == "vector" then
-		RealTarget = targetPos
-	elseif type(targetPos) == "userdata" then
-		RealTarget = targetPos.Position
-	elseif type(targetPos) == "number" then
-		RealTarget = CFrame.new(unpack(RealtargetPos))
-		RealTarget = RealTarget.p
-	end
-
-	local ReturnValue
-	local CheckInOut = math.huge
-	if game.Players.LocalPlayer.Team then
-		for i,v in pairs(game:GetService("Workspace")._WorldOrigin.PlayerSpawns:FindFirstChild(tostring(game:GetService("Players").LocalPlayer.Team)):GetChildren()) do 
-			local ReMagnitude = (RealTarget - v:GetModelCFrame().p).Magnitude
-			if ReMagnitude < CheckInOut then
-				CheckInOut = ReMagnitude
-				ReturnValue = v.Name
-			end
-		end
-		if ReturnValue then
-			return ReturnValue
-		end 
-	end
-end
-
--- [Tween Functions #2 ]
-
-local function Tween(...)
-	local RealtargetPos = {...}
-	local targetPos = RealtargetPos[1]
-	local RealTarget
-	if type(targetPos) == "vector" then
-		RealTarget = CFrame.new(targetPos)
-	elseif type(targetPos) == "userdata" then
-		RealTarget = targetPos
-	elseif type(targetPos) == "number" then
-		RealTarget = CFrame.new(unpack(RealtargetPos))
-	end
-
-	if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health == 0 then 
-        if tween then 
-            tween:Cancel() 
-        end 
-        repeat task.wait() until game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health > 0 wait(0.2) 
+function Tween(Peach)
+	if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health <= 0 or not game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid") then 
+        tween:Cancel() 
+        repeat task.wait() until game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid") and game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Health > 0 wait(7) return 
     end
+	if (game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - Peach.Position).Magnitude <= 150 then
+		pcall(function()
+			tween:Cancel()
 
-	local tweenfunc = {}
-	local Distance = (RealTarget.Position - game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude
-	if Distance < 1000 then
-		Speed = 315
-	elseif Distance >= 1000 then
-		Speed = 300
-	end
+			game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.CFrame = Peach
 
-    if _G.Settings.BypassThatTP then
-		if Distance > 3000 and not _G.Settings.Melee["Auto God Human"] and not _G.Settings.Raids["Full Auto Raids"] and not _G.Settings.Players["Start Kill Players"] and not (game.Players.LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Character:FindFirstChild("Special Microchip") or game.Players.LocalPlayer.Backpack:FindFirstChild("God's Chalice") or game.Players.LocalPlayer.Character:FindFirstChild("God's Chalice") or game.Players.LocalPlayer.Backpack:FindFirstChild("Hallow Essence") or game.Players.LocalPlayer.Character:FindFirstChild("Hallow Essence") or game.Players.LocalPlayer.Character:FindFirstChild("Sweet Chalice") or game.Players.LocalPlayer.Backpack:FindFirstChild("Sweet Chalice")) and not (Monster == "Fishman Commando [Lv. 400]" or Monster == "Fishman Warrior [Lv. 375]") then
-			pcall(function()
-				tween:Cancel()
-				peachtween = false
-
-				if game:GetService("Players")["LocalPlayer"].Data:FindFirstChild("SpawnPoint").Value == tostring(GetIsLand(RealTarget)) then 
-					wait(.1)
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TeleportToSpawn")
-				elseif game:GetService("Players")["LocalPlayer"].Data:FindFirstChild("LastSpawnPoint").Value == tostring(GetIsLand(RealTarget)) then
-					game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(15)
-					wait(0.1)
-					repeat task.wait() until game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Health > 0
-				else
-					if game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Health > 0 then
-						if peachtween == false then
-							game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = RealTarget
-						end
-						peachtween = true
-					end
-					wait(.08)
-					game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid"):ChangeState(15)
-					repeat task.wait() until game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Health > 0
-					wait(.1)
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("SetSpawnPoint")
-				end
-				wait(0.2)
-
-				return
-			end)
-		end
+			return
+		end)
 	end
 
 	local tween_s = game:service("TweenService")
-	local info = TweenInfo.new((RealTarget.Position - game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude/Speed,Enum.EasingStyle.Linear)
-	local tweenw, err = pcall(function()
-		tween = tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"],info,{CFrame = RealTarget})
-		tween:Play()
-	end)
+	local info = TweenInfo.new((game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - Peach.Position).Magnitude/325,Enum.EasingStyle.Linear)
+	tween = tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"],info,{CFrame = Peach})
+	tween:Play()
+
+	local tweenfunc = {}
 
 	function tweenfunc:Stop()
 		tween:Cancel()
-	end 
-
-	function tweenfunc:Wait()
-		tween.Completed:Wait()
-	end 
+	end
 
 	return tweenfunc
 end
@@ -173,7 +135,7 @@ end
 task.spawn(function()
     game:GetService("RunService").Stepped:Connect(function()
         pcall(function()
-            if _G.Settings.AutoFarm or _G.Settings.AutoFarmFast then
+            if _G.Settings.AutoFarm then
                  if syn then
                     setfflag("HumanoidParallelRemoveNoPhysics","false")
                     setfflag("HumanoidParallelRemoveNoPhysicsNoSimulate2","false")
@@ -508,14 +470,14 @@ function yakmefan()
 					ah = math.floor(al / ai)
 					aj = al - ah * ai
 				end)()
-				ak = ak + 1;
+				ak = ak + 1
 				debug.setupvalue(a8.attack, 5, ah)
 				debug.setupvalue(a8.attack, 6, ai)
 				debug.setupvalue(a8.attack, 4, aj)
 				debug.setupvalue(a8.attack, 7, ak)
 				for k, z in pairs(a8.animator.anims.basic) do
 					z:Play(0.01, 0.01, 0.01)
-				end;
+				end
 				if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") and a8.blades and a8.blades[1] then
 					game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange", tostring(CurrentWeapon()))
 					game.ReplicatedStorage.Remotes.Validator:FireServer(math.floor(al / 1099511627776 * 16777215), ak)
@@ -547,7 +509,7 @@ coroutine.wrap(function()
 					if tick() - a6 > .3 then
 						wait(.7)
 						a6 = tick()
-					end;
+					end
 					sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
 				end
 			end
@@ -559,14 +521,14 @@ if en >= 15 and en <= 70 and _G.Settings.AutoFarmFast then
 	_G.Settings.FastType = "Slow"
 elseif en >= 70 then
 	_G.Settings.FastType = "Fast"
-end;
+end
 for y, z in pairs(game.ReplicatedStorage:GetChildren()) do
 	if z.Name == "Cake Prince" or z.Name == "Dough King" or z.Name == "Cyborg" or z.Name == "The Gorilla King" or z.Name == "Wysper" or z.Name == "Thunder God" or z.Name == "Mob Leader" or z.Name == "Bobby" or z.Name == "Saber Expert" or z.Name == "Warden" or z.Name == "Chief Warden" or z.Name == "Swan" or z.Name == "Magma Admiral" or z.Name == "Fishman Lord" or z.Name == "Wysper" or z.Name == "Ice Admiral" or z.Name == "Diamond" or z.Name == "Jeremy" or z.Name == "Fajita" or z.Name == "Don Swan" or z.Name == "Smoke Admiral" or z.Name == "Awakened Ice Admiral" or z.Name == "Tide Keeper" or z.Name == "Darkbeard" or z.Name == "Stone" or z.Name == "Island Empress" or z.Name == "Kilo Admiral" or z.Name == "Captain Elephant" or z.Name == "Beautiful Pirate" or z.Name == "Longma" or z.Name == "Cake Queen" or z.Name == "Greybeard" or z.Name == "Order" or z.Name == "Cursed Captain" or z.Name == "Soul Reaper" or z.Name == "Rip indra" or z.Name == "Mihawk Boss" or z.Name == "Cake Prince" or z.Name == "Dough King" or z.Name == "Cursed Skeleton Boss" then
 		if (z.HumanoidRootPart.CFrame.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < 1000 then
 		     _G.Settings.FastType = "Normal"
 		end
 	end
-end;
+end
 
 -- Bring Mon
 
@@ -800,96 +762,6 @@ spawn(function()
 		end)
 	end
 end)
-_G.ChackPlayer = 0;
-_G.ChackPlayer2 = _G.ChackPlayer;
-local dN = {}
-function Auto_Farm_Level_Fast()
-	local dO = game.Players:GetPlayers()
-	local dP = game.Players.LocalPlayer.Data.Level.Value;
-	local dQ = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text;
-	local dR = string.split(dQ, " ")[2]
-	getgenv().SelectPly = string.split(dQ, " ")[2]
-	pcall(function()
-		local dL = game.Players.LocalPlayer.Data.Level.Value;
-		local dM = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest;
-		CFrameMon = CFrame.new(-7719.66895, 5611.42334, -1445.98816, 0.906745553, -1.43169192e-08, -0.421678245, 5.939971e-08, 1, 9.37764852e-08, 0.421678245, -1.10078972e-07, 0.906745553)
-		if _G.Settings.AutoFarm and dL >= 15 and dL <= 69 and (CFrameMon.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 1000 then
-			game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance", Vector3.new(-7894.6176757813, 5547.1416015625, -380.29119873047))
-		end;
-		if dL >= 15 and dL <= 69 then
-			for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
-				if v.Name == "Royal Squad" then
-					if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
-						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
-						repeat task.wait()
-							v.HumanoidRootPart.CanCollide = false
-							v.Humanoid.WalkSpeed = 0
-							v.Head.CanCollide = false
-							EquipWeapon(_G.SelectWeapon)
-							if dL >= 70 and dL <= 310 then
-								if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
-									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("PlayerHunter")
-								end
-							end;
-							PosMon = v.HumanoidRootPart.CFrame
-							v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
-							v.HumanoidRootPart.Transparency = 1
-							Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
-							if not _G.Settings.AutoFarm then
-								_G.Settings.FastAttack = true
-							end
-						until not v.Parent or not _G.Settings.AutoFarm or v.Humanoid.Health < 0
-						Tween(CFrameMon)
-					end
-				else
-					BringMob = false
-					Tween(CFrameMon)
-				end
-			end
-		elseif dL >= 70 and dL <= 310 then
-			if dM.Visible == false then
-				game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("PlayerHunter")
-			elseif dM.Visible == true then
-				if string.find(dQ, "Defeat") then
-					repeat task.wait()
-						if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
-							game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Buso")
-						end;
-						if game:GetService("Players").LocalPlayer.PlayerGui.Main.PvpDisabled.Visible == true then
-							game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EnablePvp")
-						end;
-						EquipWeapon(_G.SelectWeapon)
-						Tween(game:GetService("Players")[getgenv().SelectPly].Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 5))
-						game:GetService("Players")[getgenv().SelectPly].Character.HumanoidRootPart.Size = Vector3.new(120, 120, 120)
-						if (game:GetService("Players")[getgenv().SelectPly].Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 6 then
-							game:service('VirtualInputManager'):SendKeyEvent(true, "X", false, game)
-							game:service('VirtualInputManager'):SendKeyEvent(false, "X", false, game)
-						end;
-						if (game:GetService("Players")[getgenv().SelectPly].Character.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 6 then
-							game:service('VirtualInputManager'):SendKeyEvent(true, "Z", false, game)
-							game:service('VirtualInputManager'):SendKeyEvent(false, "Z", false, game)
-						end;
-						if not _G.Settings.AutoFarm then
-							_G.Settings.FastAttack = true
-						end
-					until game.Players[getgenv().SelectPly].Character.Humanoid.Health <= 0 or not Auto_Farm_Level_Fast() or dL >= 310
-				end
-			end
-		end
-	end)
-end
-
-if W then
-AutoFarm:Toggle("Auto Farm Fast 1-300",_G.Settings.AutoFarmFast,function(value)
-   _G.Settings.AutoFarmFast = value
-SaveSettings()
-if value == false then
-        wait()
-        Tween(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame)
-        wait()
-    end
-end)
-end
 
 AutoFarm:Toggle("Bring Mob",_G.Settings.BringMob,function(value)
     _G.Settings.BringMob = value
@@ -917,9 +789,3 @@ task.spawn(function()
 		end)
 	end
 end)
-
-AutoFarm:Toggle("Bypass TP",_G.Settings.BypassThatTP,function(value)
-    _G.Settings.BypassThatTP = value
-SaveSettings()
-end)
-
