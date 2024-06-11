@@ -408,8 +408,8 @@ local CombatFramework = WaitChilds(Player, "PlayerScripts", "CombatFramework")
 local CFWReplicated = WaitChilds(ReplicatedStorage, "CombatFramework")
 local RigLib = WaitChilds(CFWReplicated, "RigLib")
 
-local _G.Settings.FastAttack do
-    _G.Settings.FastAttack = {}
+local FastAttack do
+    FastAttack = {}
     
     local CombatModule = getupvalue(require(CombatFramework), 2)
     local LibModule = require(RigLib)
@@ -471,6 +471,22 @@ local _G.Settings.FastAttack do
         Debounce = tick()
       end
     end
+
+task.spawn(function() -- Fast Attack
+    while task.wait() do
+      if _G.Settings.FastAttack then
+        pcall(function()
+          local AC = CF.activeController
+          AC.timeToNextAttack = 0
+          AC.attacking = false
+          AC.timeToNextBlock = 0
+          AC.increment = 4
+          AC.blocking = false
+          AC.humanoid.AutoRotate = true
+        end)
+      end
+    end
+  end)
 
 -- Bring Mon
 
