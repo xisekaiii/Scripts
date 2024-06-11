@@ -1,0 +1,83 @@
+local CombatFramework = WaitChilds(Player, "PlayerScripts", "CombatFramework")
+local CFWReplicated = WaitChilds(ReplicatedStorage, "CombatFramework")
+local RigLib = WaitChilds(CFWReplicated, "RigLib")
+
+local FastAttack do
+    FastAttack = {}
+    
+    local CombatModule = getupvalue(require(CombatFramework), 2)
+    local LibModule = require(RigLib)
+    
+    local RigControllerEvent = WaitChilds(ReplicatedStorage, "RigControllerEvent")
+    local Validator = WaitChilds(Remotes, "Validator")
+    
+    function Module.BladeHitAttack()
+      if Module.IsAlive(Player.Character) then
+        if not _G.Settings.FastAttack then
+          VirtualUser:CaptureController()
+          VirtualUser:Button1Down(Vector2.new(1e4, 1e4))
+          return
+        end
+        
+        local AC = CombatModule.activeController
+        if AC.blades and #AC.blades > 0 then
+          local BladeHits = LibModule.getBladeHits(
+            Player.Character,
+            AC.blades,
+            ((AttackDistance and 60) or AC.hitboxMagnitude)
+          )
+          
+          if #BladeHits > 0 then
+            local Val1 = getupvalue(AC.attack, 5) -- A
+            local Val2 = getupvalue(AC.attack, 6) -- B
+            local Val3 = getupvalue(AC.attack, 4) -- C
+            local Val4 = getupvalue(AC.attack, 7) -- D
+            local Val5 = ((Val1 * 798405 + Val3 * 727595) % Val2)
+            local Val6 = (Val3 * 798405)
+            
+            Val5 = ((Val5 * Val2 + Val6) % 1099511627776)
+            Val1 = (math.floor(Val5 / Val2))
+            Val3 = (Val5 - Val1 * Val2)
+            Val4 = (Val4 + 1)
+            
+            setupvalue(AC.attack, 5, Val1)
+            setupvalue(AC.attack, 6, Val2)
+            setupvalue(AC.attack, 4, Val3)
+            setupvalue(AC.attack, 7, Val4)
+            
+            local Blade = AC.currentWeaponModel
+            if typeof(Blade) == "Instance" then
+              AC.animator.anims.basic[1]:Play()
+              RigControllerEvent:FireServer("weaponChange", Blade.Name)
+              Validator:FireServer(math.floor(Val5 / 1099511627776 * 16777215), Val4)
+              RigControllerEvent:FireServer("hit", BladeHits, 1, "")
+            end
+          end
+        end
+      end
+    end
+    
+    local Debounce
+    function Module.PlayerClick()
+      local Delay = (_G.Settings.FastType or 0.125)
+      if not Debounce or (tick() - Debounce) >= math.clamp(Delay, 0.125, 1) then
+        task.spawn(Module.BladeHitAttack)
+        Debounce = tick()
+      end
+    end
+
+task.spawn(function() -- Fast Attack
+    while task.wait() do
+      if _G.Settings.FastAttack then
+        pcall(function()
+          local AC = CF.activeController
+          AC.timeToNextAttack = 0
+          AC.attacking = false
+          AC.timeToNextBlock = 0
+          AC.increment = 4
+          AC.blocking = false
+          AC.humanoid.AutoRotate = true
+        end)
+      end
+    end
+  end)
