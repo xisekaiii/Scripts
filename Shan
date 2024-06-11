@@ -404,8 +404,7 @@ end
 
 -- Fast Attack
 
-local FastAttack = 
-
+local FastAttack = loadstring(game:HttpGet("https://raw.githubusercontent.com/xDestinyyx/Scripts/main/Fncs"))()
 
 -- Bring Mon
 
