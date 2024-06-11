@@ -579,14 +579,8 @@ spawn(function()
     end
 end)
 
-FastDelay = {
-	"Slow",
-	"Normal",
-	"Fast"
-}
-
-AutoFarm:Slider("Fast Attack Delay", 0, 1, 0, function(value)
-    _G.Settings.FastType = value (value)
+AutoFarm:Slider("Fast Attack Delay", 0, 1, 1, function(value)
+    _G.Settings.FastType = value
 end)
 
 local CodeApi = loadstring(game:HttpGet("https://pastebin.com/raw/pWSTb80J"))()
