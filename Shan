@@ -692,17 +692,17 @@ spawn(function()
                                             EquipWeapon(_G.SelectWeapon)
                                             v.HumanoidRootPart.Transparency = 1
 					    if AttackRandomType_MonCFrame == 1 then
-					       Tween(Q()[7][1] * CFrame.new(0, 30, 20))
+					       Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 20))
 					    elseif AttackRandomType_MonCFrame == 2 then
-										Tween(Q()[7][1] * CFrame.new(0, 30, -20))
+										Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, -20))
 									elseif AttackRandomType_MonCFrame == 3 then
-										Tween(Q()[7][1] * CFrame.new(20, 30, 0))
+										Tween(v.HumanoidRootPart.CFrame * CFrame.new(20, 30, 0))
 									elseif AttackRandomType_MonCFrame == 4 then
-										Tween(Q()[7][1] * CFrame.new(0, 30, -20))
+										Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, -20))
 									elseif AttackRandomType_MonCFrame == 5 then
-										Tween(Q()[7][1] * CFrame.new(-20, 30, 0))
+										Tween(v.HumanoidRootPart.CFrame * CFrame.new(-20, 30, 0))
 									else
-										Tween(Q()[7][1] * CFrame.new(0, 30, 20))
+										Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 20))
 									end
                                             if not _G.Settings.AutoFarm then
                                                 _G.Settings.FastAttack = true
