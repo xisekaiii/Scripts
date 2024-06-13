@@ -703,7 +703,7 @@ spawn(function()
 										Tween(Q()[7][1] * CFrame.new(-20, 30, 0))
 									else
 										Tween(Q()[7][1] * CFrame.new(0, 30, 20))
-									ene
+									end
                                             if not _G.Settings.AutoFarm then
                                                 _G.Settings.FastAttack = true
                                             end
