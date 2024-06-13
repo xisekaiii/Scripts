@@ -50,8 +50,8 @@ end)
 
 _G.Settings = {
 
-SelectWeapon = "Melee",
-FastType = 1,
+SelectWeapon = {"Melee"},
+FastType = {}
 AutoFarm = false,
 BringMob = true,
 FastAttack = true,
