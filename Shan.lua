@@ -691,19 +691,19 @@ spawn(function()
                                             v.Head.CanCollide = false
                                             EquipWeapon(_G.SelectWeapon)
                                             v.HumanoidRootPart.Transparency = 1
-					    if AttackRandomType_MonCFrame == 1 then
-					       Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 20))
-					    elseif AttackRandomType_MonCFrame == 2 then
-										Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, -20))
-									elseif AttackRandomType_MonCFrame == 3 then
-										Tween(v.HumanoidRootPart.CFrame * CFrame.new(20, 30, 0))
-									elseif AttackRandomType_MonCFrame == 4 then
-										Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, -20))
-									elseif AttackRandomType_MonCFrame == 5 then
-										Tween(v.HumanoidRootPart.CFrame * CFrame.new(-20, 30, 0))
-									else
-										Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 20))
-									end
+                                            if AttackRandomType_MonCFrame == 1 then
+                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 20))
+                                            elseif AttackRandomType_MonCFrame == 2 then
+                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, -20))
+                                            elseif AttackRandomType_MonCFrame == 3 then
+                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(20, 30, 0))
+                                            elseif AttackRandomType_MonCFrame == 4 then
+                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, -20))
+                                            elseif AttackRandomType_MonCFrame == 5 then
+                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(-20, 30, 0))
+                                            else
+                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 20))
+                                            end
                                             if not _G.Settings.AutoFarm then
                                                 _G.Settings.FastAttack = true
                                             end
@@ -731,7 +731,12 @@ spawn(function()
                     if (Q()[2].Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 1 then
                         BringMob = false
                         wait(0.2)
-                        game:GetService('ReplicatedStorage').Remotes.CommF_:InvokeServer("StartQuest", Q()[4], Q()[1])
+                        game:GetService('ReplicatedStorage').Remotes.CommF_:InvokeServer("StartQuest",Q()[4],Q()[1])
+								wait(0.5)
+								if dM.Visible == true then
+									Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
+								end
+                        return
                     end
                 end
             end
