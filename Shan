@@ -51,7 +51,7 @@ end)
 _G.Settings = {
 
 SelectWeapon = {"Melee"},
-FastType = {}
+FastType = {},
 AutoFarm = false,
 BringMob = true,
 FastAttack = true,
