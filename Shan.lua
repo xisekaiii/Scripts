@@ -36,8 +36,6 @@ assert(getrawmetatable)
         return old(self, ...)
 end)
 
-getgenv().A = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib).wrapAttackAnimationAsync
-getgenv().B = require(game.Players.LocalPlayer.PlayerScripts.CombatFramework.Particle).play
 _G.setfflag = true
 spawn(function()
     while wait() do
@@ -604,10 +602,10 @@ spawn(function()
                         BringMob = false
                         wait(0.2)
                         game:GetService('ReplicatedStorage').Remotes.CommF_:InvokeServer("StartQuest",Q()[4],Q()[1])
-								wait(0.5)
-								if dM.Visible == true then
-									Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
-								end
+			    wait(0.5)
+				if dM.Visible == true then
+				Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
+				end
                         return
                     end
                 end
