@@ -1,5 +1,3 @@
--- [ Anti Https Spy for Skidders ]
-
 local functions = {
     rconsoleprint,
     print,
