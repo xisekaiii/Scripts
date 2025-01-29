@@ -389,9 +389,8 @@ spawn(function()
 		pcall(function()
 			if _G.Settings.BringMob then
 				for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-					if _G.Settings.AutoFarm and v.Name == Mon and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 250 then
+					if _G.Settings.AutoFarm and v.Name == Mon and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 200 then
 						v.HumanoidRootPart.CFrame = PosMon
-                                                v.Humanoid.WalkSpeed = 0
 						v.HumanoidRootPart.CanCollide = false
 						v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
 						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
@@ -400,6 +399,29 @@ spawn(function()
 			end
 		end)
 	end)
+end)
+
+task.spawn(function()
+	while task.wait() do
+		pcall(function()
+			if _G.Settings.BringMob then
+				for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
+					if not string.find(v.Name, "Boss") and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 250 then
+						v.HumanoidRootPart.CFrame = PosMon
+						v.Humanoid.JumpPower = 0
+						v.Humanoid.WalkSpeed = 0
+						v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+						v.HumanoidRootPart.Transparency = 1
+						v.HumanoidRootPart.CanCollide = false
+						v.Head.CanCollide = false
+						v.Humanoid:ChangeState(11)
+						v.Humanoid:ChangeState(14)
+						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+					end
+				end
+			end
+		end)
+	end
 end)
 
 -- Click & Effects
