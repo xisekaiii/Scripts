@@ -417,43 +417,36 @@ end
 -- Bring Mon
 
 spawn(function()
-	game:GetService("RunService").Heartbeat:Connect(function()
-		pcall(function()
-			if _G.Settings.BringMob then
-				for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-					if _G.Settings.AutoFarm and v.Name == Mon and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 200 then
-						v.HumanoidRootPart.CFrame = PosMon
-						v.HumanoidRootPart.CanCollide = false
-						v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
-						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-					end
-				end
-			end
-		end)
-	end)
-end)
-
-task.spawn(function()
-	while task.wait() do
-		pcall(function()
-			if _G.Settings.BringMob then
-				for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
-					if not string.find(v.Name, "Boss") and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 300 then
-						v.HumanoidRootPart.CFrame = PosMon
-						v.Humanoid.JumpPower = 0
-						v.Humanoid.WalkSpeed = 0
-						v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
-						v.HumanoidRootPart.Transparency = 1
-						v.HumanoidRootPart.CanCollide = false
-						v.Head.CanCollide = false
-						v.Humanoid:ChangeState(11)
-						v.Humanoid:ChangeState(14)
-						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-					end
-				end
-			end
-		end)
-	end
+        while task.wait() do
+            pcall(function()
+                if _G.Settings.BringMob then
+                    for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                        if _G.Settings.AutoFarm and BringMob and v.Name == Mon and (Mon == "Factory Staff [Lv. 800]" or Mon == "Monkey [Lv. 14]" or Mon == "Dragon Crew Warrior [Lv. 1575]" or Mon == "Dragon Crew Archer [Lv. 1600]") and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 220 then
+                            v.HumanoidRootPart.Size = Vector3.new(50,50,50)
+                            v.HumanoidRootPart.CFrame = PosMon
+                            v.Humanoid:ChangeState(14)
+                            v.HumanoidRootPart.CanCollide = false
+                            v.Head.CanCollide = false
+                            if v.Humanoid:FindFirstChild("Animator") then
+                                v.Humanoid.Animator:Destroy()
+                            end
+                            sethiddenproperty(game:GetService("Players").LocalPlayer,"SimulationRadius",math.huge)
+                        elseif _G.Settings.AutoFarm and BringMob and v.Name == Mon and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 250 then
+                            v.HumanoidRootPart.Size = Vector3.new(50,50,50)
+                            v.HumanoidRootPart.CFrame = PosMon
+                            v.Humanoid:ChangeState(14)
+                            v.HumanoidRootPart.CanCollide = false
+                            v.Head.CanCollide = false
+                            if v.Humanoid:FindFirstChild("Animator") then
+                                v.Humanoid.Animator:Destroy()
+                            end
+                            sethiddenproperty(game:GetService("Players").LocalPlayer,"SimulationRadius",math.huge)
+                        end
+                    end
+                end
+            end)
+        end
+    end)
 end)
 
 -- Click & Effects
@@ -568,29 +561,14 @@ spawn(function()
                                         if not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, Q()[6]) then
                                             game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
                                         else
+                                            EquipWeapon(_G.SelectWeapon)
+                                            Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 0))
                                             PosMon = v.HumanoidRootPart.CFrame
-                                            v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+                                            v.HumanoidRootPart.Size = Vector3.new(50, 50, 50)
                                             v.HumanoidRootPart.CanCollide = false
                                             v.Humanoid.WalkSpeed = 0
                                             v.Head.CanCollide = false
-                                            EquipWeapon(_G.SelectWeapon)
                                             v.HumanoidRootPart.Transparency = 1
-                                            if AttackRandomType_MonCFrame == 1 then
-                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 20))
-                                            elseif AttackRandomType_MonCFrame == 2 then
-                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, -20))
-                                            elseif AttackRandomType_MonCFrame == 3 then
-                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(20, 30, 0))
-                                            elseif AttackRandomType_MonCFrame == 4 then
-                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, -20))
-                                            elseif AttackRandomType_MonCFrame == 5 then
-                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(-20, 30, 0))
-                                            else
-                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 20))
-                                            end
-                                            if not _G.Settings.AutoFarm then
-                                                _G.Settings.FastAttack = true
-                                            end
                                         end
                                     until not _G.Settings.AutoFarm or not v.Parent or v.Humanoid.Health <= 0 or dM.Visible == false or not v:FindFirstChild("HumanoidRootPart")
                                 end
