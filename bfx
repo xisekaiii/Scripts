@@ -389,8 +389,9 @@ spawn(function()
 		pcall(function()
 			if _G.Settings.BringMob then
 				for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-					if _G.Settings.AutoFarm and v.Name == Mon and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 200 then
+					if _G.Settings.AutoFarm and v.Name == Mon and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 250 then
 						v.HumanoidRootPart.CFrame = PosMon
+                                                v.Humanoid.WalkSpeed = 0
 						v.HumanoidRootPart.CanCollide = false
 						v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
 						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
