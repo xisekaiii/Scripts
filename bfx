@@ -51,7 +51,6 @@ _G.Settings = {
 SelectWeapon = {"Melee"},
 AutoFarm = false,
 BringMob = true,
-FastAttack = true,
 AutoHaki = true
 
 }
@@ -196,25 +195,9 @@ end
 
 spawn(function()
     while wait() do
-        if _G.Settings.FastAttack then
             module:attack()
         end
-    end
 end)
-
-function ClickCamera()
-    pcall(function()
-        game:GetService("VirtualUser"):CaptureController()
-        game:GetService("VirtualUser"):ClickButton1(Vector2.new(851,158),game:GetService("Workspace").Camera.CFrame)
-    end)
-end
-
-function Click()
-    pcall(function()
-        game:GetService("VirtualUser"):CaptureController()
-        game:GetService("VirtualUser"):Button1Down(Vector2.new(1280,672))
-    end)
-end
 
 -- Place ID
 
@@ -255,7 +238,7 @@ for y, z in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
     end
 end
 for y, z in pairs(game.ReplicatedStorage:GetChildren()) do
-    if z:IsA("Model") and z:FindFirstChild("HumanoidRootPart") then
+    if z:IsA("odel") and z:FindFirstChild("HumanoidRootPart") then
         local P = z.HumanoidRootPart:Clone()
         local J = string.gsub(z.Name, "Lv. ", "")
         local K = string.gsub(J, "[%[%]]", "")
@@ -508,7 +491,7 @@ end;
 
 local QuartyzLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/floreallx/Scripts/refs/heads/main/Mukuro.lua"))()
 
-local win = QuartyzLib:Window("nelzkie gwapo")
+local win = QuartyzLib:Window("Venice")
 local serv = win:Server("Blox Fruits", "")
 
 local AutoFarm = serv:Channel("Main", "http://www.roblox.com/asset/?id=7040391851")
@@ -643,11 +626,6 @@ spawn(function()
             end
         end)
     end
-end)
-
-AutoFarm:Toggle("Auto Click",_G.Settings.FastAttack,function(value)
-    _G.Settings.FastAttack = value
-SaveSettings()
 end)
 
 
