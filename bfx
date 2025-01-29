@@ -196,7 +196,9 @@ end
 
 spawn(function()
     while wait() do
-        module:attack()
+        if _G.Settings.FastAttack then
+            module:attack()
+        end
     end
 end)
 
@@ -642,6 +644,12 @@ spawn(function()
         end)
     end
 end)
+
+AutoFarm:Toggle("Auto Click",_G.Settings.FastAttack,function(value)
+    _G.Settings.FastAttack = value
+SaveSettings()
+end)
+
 
 AutoFarm:Toggle("Bring Mob",_G.Settings.BringMob,function(value)
     _G.Settings.BringMob = value
