@@ -447,14 +447,12 @@ local serv = win:Server("Blox Fruits", "")
 
 local AutoFarm = serv:Channel("Main", "http://www.roblox.com/asset/?id=7040391851")
 
-Weapons = {
-	"Melee",
-	"Fruit",
-	"Sword",
-        "Gun"
-}
-AutoFarm:Dropdown("Select Weapon", Weapons , function(value)
-    _G.Settings.SelectWeapon = value
+Weapons = {"Melee","Fruit","Sword","Gun"}
+
+_G.Settings.SelectWeapon = "Melee"
+
+AutoFarm:Dropdown("Select Weapon",Weapons,function(x)
+    _G.Settings.SelectWeapon = x
     SaveSettings()
 end)
 
