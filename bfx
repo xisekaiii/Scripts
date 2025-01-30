@@ -470,7 +470,7 @@ Weapon = {
 	"Sword",
         "Gun"
 }
-AutoFarm:Dropdown("Select Weapon", Weapon, function(value)
+AutoFarm:Dropdown("Select Weapon", _G.Settings.SelectWeapon, function(value)
     _G.Settings.SelectWeapon = value
     SaveSettings()
 end)
