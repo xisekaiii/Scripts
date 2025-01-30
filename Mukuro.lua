@@ -1337,7 +1337,7 @@ function QuartyzLib:Window(text,mainclr,cls)
 				CurrentSelectedText.Position = UDim2.new(0.0178571437, 0, 0, 0)
 				CurrentSelectedText.Size = UDim2.new(0, 193, 0, 32)
 				CurrentSelectedText.Font = Enum.Font.Gotham
-				CurrentSelectedText.Text = "..."
+				CurrentSelectedText.Text = {}
 				CurrentSelectedText.TextColor3 = PresetColor
 				CurrentSelectedText.TextSize = 14.000
 				CurrentSelectedText.TextXAlignment = Enum.TextXAlignment.Left
