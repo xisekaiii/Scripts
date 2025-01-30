@@ -384,23 +384,6 @@ end
 
 -- Bring Mon
 
-spawn(function()
-	game:GetService("RunService").Heartbeat:Connect(function()
-		pcall(function()
-			if _G.Settings.BringMob then
-				for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-					if _G.Settings.AutoFarm and v.Name == Mon and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 200 then
-						v.HumanoidRootPart.CFrame = PosMon
-						v.HumanoidRootPart.CanCollide = false
-						v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
-						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-					end
-				end
-			end
-		end)
-	end)
-end)
-
 task.spawn(function()
 	while task.wait() do
 		pcall(function()
@@ -410,7 +393,7 @@ task.spawn(function()
 						v.HumanoidRootPart.CFrame = PosMon
 						v.Humanoid.JumpPower = 0
 						v.Humanoid.WalkSpeed = 0
-						v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+						v.HumanoidRootPart.Size = Vector3.new(50, 50, 50)
 						v.HumanoidRootPart.Transparency = 1
 						v.HumanoidRootPart.CanCollide = false
 						v.Head.CanCollide = false
@@ -446,11 +429,11 @@ end)
 
 -- Weapon
 
-function EquipWeapon(B)
+function EquipWeapon(x)
 	pcall(function()
-		if game.Players.LocalPlayer.Backpack:FindFirstChild(B) then
-			local C = game.Players.LocalPlayer.Backpack:FindFirstChild(B)
-			game.Players.LocalPlayer.Character.Humanoid:EquipTool(C)
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(x) then
+			local v = game.Players.LocalPlayer.Backpack:FindFirstChild(x)
+			game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
 		end
 	end)
 end;
