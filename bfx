@@ -516,11 +516,6 @@ spawn(function()
                                             EquipWeapon(_G.SelectWeapon)
                                             Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 0))
                                             PosMon = v.HumanoidRootPart.CFrame
-                                            v.HumanoidRootPart.Size = Vector3.new(50, 50, 50)
-                                            v.HumanoidRootPart.CanCollide = false
-                                            v.Humanoid.WalkSpeed = 0
-                                            v.Head.CanCollide = false
-                                            v.HumanoidRootPart.Transparency = 1
                                         end
                                     until not _G.Settings.AutoFarm or not v.Parent or v.Humanoid.Health <= 0 or dM.Visible == false or not v:FindFirstChild("HumanoidRootPart")
                                 end
