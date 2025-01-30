@@ -16,7 +16,7 @@ end)
 
 _G.Settings = {
 
-SelectWeapon = {"Melee"},
+SelectWeapon = "Melee",
 AutoFarm = false,
 BringMob = true,
 AutoHaki = true
