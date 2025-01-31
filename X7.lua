@@ -15,12 +15,10 @@ spawn(function()
 end)
 
 _G.Settings = {
-
-SelectWeapon = "Melee",
-AutoFarm = false,
-BringMob = true,
-AutoHaki = true
-
+    SelectWeapon = 1,
+    AutoFarm = false,
+    BringMob = true,
+    AutoHaki = true
 }
 
 function LoadSettings()
@@ -138,7 +136,7 @@ end)
 -- [ Click Functions ]
 local module = {
     NextAttack = 0,
-    Distance = 55,
+    Distance = 60,
     attackMobs = true,
     attackPlayers = true
 }
@@ -163,8 +161,8 @@ end
 
 spawn(function()
     while wait() do
-            module:attack()
-        end
+         module:attack()
+     end
 end)
 
 -- Place ID
