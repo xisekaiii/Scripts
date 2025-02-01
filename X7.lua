@@ -16,7 +16,7 @@ end)
 
 _G.Settings = {
 
-SelectWeapon = "Melee",
+SelectWeapon = Melee,
 AutoFarm = false,
 BringMob = true,
 AutoHaki = true
@@ -382,30 +382,6 @@ local function Q()
     }
 end
 
--- Bring Mon
-
-task.spawn(function()
-	while task.wait() do
-		pcall(function()
-			if _G.Settings.BringMob then
-				for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
-					if not string.find(v.Name, "Boss") and (v.HumanoidRootPart.Position - PosMon.Position).magnitude <= 250 then
-						v.HumanoidRootPart.CFrame = PosMon
-						v.Humanoid.JumpPower = 0
-						v.Humanoid.WalkSpeed = 0
-						v.HumanoidRootPart.Size = Vector3.new(50, 50, 50)
-						v.HumanoidRootPart.Transparency = 1
-						v.HumanoidRootPart.CanCollide = false
-						v.Head.CanCollide = false
-						v.Humanoid:ChangeState(11)
-						v.Humanoid:ChangeState(14)
-						sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-					end
-				end
-			end
-		end)
-	end
-end)
 
 -- Click & Effects
 
@@ -440,7 +416,7 @@ end;
 
 -- gags
 
-local QuartyzLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/floreallx/Scripts/refs/heads/main/Mukuro.lua"))()
+local QuartyzLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/floreallx/Scripts/refs/heads/main/DiscordLib.lua"))()
 
 local win = QuartyzLib:Window("Venice")
 local serv = win:Server("Blox Fruits", "")
@@ -514,6 +490,11 @@ spawn(function()
                                             EquipWeapon(_G.SelectWeapon)
                                             Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 0))
                                             PosMon = v.HumanoidRootPart.CFrame
+StartMagnet = true
+v.HumanoidRootPart.CanCollide = false
+                                                v.Humanoid.WalkSpeed = 0
+                                                v.Head.CanCollide = false
+                                                v.HumanoidRootPart.Size = Vector3.new(50,50,50)
                                         end
                                     until not _G.Settings.AutoFarm or not v.Parent or v.Humanoid.Health <= 0 or dM.Visible == false or not v:FindFirstChild("HumanoidRootPart")
                                 end
@@ -556,6 +537,38 @@ AutoFarm:Toggle("Bring Mob",_G.Settings.BringMob,function(value)
     _G.Settings.BringMob = value
 SaveSettings()
 end)
+
+spawn(function()
+        while task.wait() do
+            pcall(function()
+                if _G.Settings.BringMob then
+                    for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                        if _G.Settings.AutoFarm and StartMagnet and v.Name == Mon and (Mon == "Factory Staff [Lv. 800]" or Mon == "Monkey [Lv. 14]" or Mon == "Dragon Crew Warrior [Lv. 1575]" or Mon == "Dragon Crew Archer [Lv. 1600]") and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 220 then
+                            v.HumanoidRootPart.Size = Vector3.new(50,50,50)
+                            v.HumanoidRootPart.CFrame = PosMon
+                            v.Humanoid:ChangeState(14)
+                            v.HumanoidRootPart.CanCollide = false
+                            v.Head.CanCollide = false
+                            if v.Humanoid:FindFirstChild("Animator") then
+                                v.Humanoid.Animator:Destroy()
+                            end
+                            sethiddenproperty(game:GetService("Players").LocalPlayer,"SimulationRadius",math.huge)
+                        elseif _G.Settings.AutoFarm and StartMagnet and v.Name == Mon and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 250 then
+                            v.HumanoidRootPart.Size = Vector3.new(50,50,50)
+                            v.HumanoidRootPart.CFrame = PosMon
+                            v.Humanoid:ChangeState(14)
+                            v.HumanoidRootPart.CanCollide = false
+                            v.Head.CanCollide = false
+                            if v.Humanoid:FindFirstChild("Animator") then
+                                v.Humanoid.Animator:Destroy()
+                            end
+                            sethiddenproperty(game:GetService("Players").LocalPlayer,"SimulationRadius",math.huge)
+                        end
+                    end
+                end
+            end)
+        end
+    end)
 
 AutoFarm:Toggle("Auto Haki",_G.Settings.AutoHaki,function(value)
     _G.Settings.AutoHaki = value
