@@ -1,0 +1,11 @@
+local QuartyzLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/floreallx/Scripts/refs/heads/main/DiscordLib.lua"))()
+
+local win = QuartyzLib:Window("Venice")
+local serv = win:Server("Blox Fruits", "")
+
+local AutoFarm = serv:Channel("Main", "http://www.roblox.com/asset/?id=7040391851")
+
+
+AutoFarm:Toggle("Auto Activate Haki",_G.AutoHaki,function(value)
+   _G.AutoHaki = value
+end)
