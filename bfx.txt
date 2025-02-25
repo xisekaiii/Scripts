@@ -506,7 +506,7 @@ end;
 
 -- gags
 
-local QuartyzLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/floreallx/Scripts/refs/heads/main/Mukuro.lua"))()
+local QuartyzLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/xTashaloveigne/Scripts/refs/heads/main/Mukuro.lua"))()
 
 local win = QuartyzLib:Window("nelzkie gwapo")
 local serv = win:Server("Blox Fruits", "")
