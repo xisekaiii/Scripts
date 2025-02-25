@@ -508,10 +508,10 @@ end;
 
 local QuartyzLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/xTashaloveigne/Scripts/refs/heads/main/Mukuro.lua"))()
 
-local win = QuartyzLib:Window("nelzkie gwapo")
-local serv = win:Server("Blox Fruits", "")
+local win = QuartyzLib:Window("XV")
+local serv = win:Server("Blox Fruits","")
 
-local AutoFarm = serv:Channel("Main", "http://www.roblox.com/asset/?id=7040391851")
+local AutoFarm = serv:Channel("Main","http://www.roblox.com/asset/?id=7040391851")
 
 Weapon = {
 	"Melee",
