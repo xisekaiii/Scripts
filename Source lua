@@ -4,6 +4,102 @@ repeat wait() until game:GetService("Players").LocalPlayer
 repeat wait() until game:GetService("Players").LocalPlayer.PlayerGui
 repeat wait() until game:GetService("ReplicatedStorage").Effect.Container
 
+local QuartyzLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/xTashaloveigne/Scripts/refs/heads/main/DiscordLib.lua"))()
+
+local win = QuartyzLib:Window("i don't know")
+local serv = win:Server("Blox Fruits", "")
+
+local AutoFarm = serv:Channel("Main", "http://www.roblox.com/asset/?id=7040391851")
+
+spawn(function()
+--     while wait() do
+--         function print()
+--         end
+--         function warn()
+--         end
+--         function error()
+--         end
+--         debug.traceback = function()
+--             return "Traceback blocked";
+--         end;
+--         debug.info = function()
+--             return "Info blocked";
+--         end;
+--         local v420 = getrawmetatable(game);
+--         if (v420 and not v420.__metatable) then
+--             setreadonly(v420, false);
+--             local v658 = v420.__index;
+--             local v659 = v420.__newindex;
+--             v420.__index = function(v759, v760)
+--                 if ((v760 == "debug") or (v760 == "getrawmetatable")) then
+--                     error("Anti Skid: Tampering detected!");
+--                 end
+--                 return v658(v759, v760);
+--             end;
+--             v420.__newindex = function(v761, v762, v763)
+--                 if ((v762 == "debug") or (v762 == "getrawmetatable")) then
+--                     error("Anti Skid: Tampering detected!");
+--                 end
+--                 return v659(v761, v762, v763);
+--             end;
+--             setreadonly(v420, true);
+--         end
+--         local function v421()
+--             local v568 = {
+--                 "_G",
+--                 "debug",
+--                 "getgenv",
+--                 "getrawmetatable",
+--                 "setfenv",
+--                 "loadstring",
+--                 "hookfunction"
+--             };
+--             for v662, v663 in ipairs(v568) do
+--                 local v664, v665 = pcall(function()
+--                     return _G[v663];
+--                 end);
+--                 if (v664 and v665) then
+--                     error("Anti Skid: Environment tampering detected!");
+--                 end
+--             end
+--         end
+--         local function v422()
+--             local v569 = {
+--                 getrawmetatable,
+--                 setreadonly,
+--                 getgenv,
+--                 debug.getinfo,
+--                 debug.getregistry
+--             };
+--             for v666, v667 in ipairs(v569) do
+--                 if v667 then
+--                     error("Anti Skid: Hook tampering detected!");
+--                 end
+--             end
+--         end
+--         local v423 = game:FindService("HttpService");
+--         if v423 then
+--             v423.RequestAsync = function()
+--                 error("HTTP Requests Blocked");
+--             end;
+--             v423.GetAsync = function()
+--                 error("HTTP Get Blocked");
+--             end;
+--             v423.PostAsync = function()
+--                 error("HTTP Post Blocked");
+--             end;
+--         end
+--         function collectgarbage()
+--             error("GC Blocked");
+--         end
+--         os.time = function()
+--             error("OS Time Blocked");
+--         end;
+--         pcall(v421);
+--         pcall(v422);
+--     end
+-- end);
+
 _G.Settings = {
 
 SelectWeapon = {"Melee"},
@@ -54,8 +150,6 @@ end
 
 LoadSettings()
 
--- [ Tween Functions #1 ]
-
 function Tween(Peach)
 	if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health <= 0 or not game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid") then 
         tween:Cancel() 
@@ -84,8 +178,6 @@ function Tween(Peach)
 
 	return tweenfunc
 end
-
--- [ Body Gyro ]
 
 task.spawn(function()
     game:GetService("RunService").Stepped:Connect(function()
@@ -126,7 +218,30 @@ task.spawn(function()
     end)
 end)
 
--- [ Click Functions ]
+function AttackNoCoolDown()
+    local v228 = {};
+    local v229 = game:GetService("Workspace").Enemies:GetChildren();
+    local v230 = FindEnemiesInRange(v228, v229);
+    if not v230 then
+        return;
+    end
+    local v231 = GetEquippedTool();
+    if not v231 then
+        return;
+    end
+    pcall(function()
+        local v477 = game:GetService("ReplicatedStorage");
+        local v478 = v477:WaitForChild("Modules"):WaitForChild("Net"):WaitForChild("RE/RegisterAttack");
+        local v479 = v477:WaitForChild("Modules"):WaitForChild("Net"):WaitForChild("RE/RegisterHit");
+        if (# v228 > 0) then
+            v478:FireServer(1e-9);
+            v479:FireServer(v230, v228);
+        else
+            task.wait(1e-9);
+        end
+    end);
+end
+
 local module = {
     NextAttack = 0,
     Distance = 55,
@@ -160,22 +275,6 @@ spawn(function()
     end
 end)
 
-function ClickCamera()
-    pcall(function()
-        game:GetService("VirtualUser"):CaptureController()
-        game:GetService("VirtualUser"):ClickButton1(Vector2.new(851,158),game:GetService("Workspace").Camera.CFrame)
-    end)
-end
-
-function Click()
-    pcall(function()
-        game:GetService("VirtualUser"):CaptureController()
-        game:GetService("VirtualUser"):Button1Down(Vector2.new(1280,672))
-    end)
-end
-
--- Place ID
-
 if game.PlaceId == 2753915549 then
         W = true
     elseif game.PlaceId == 4442272183 then
@@ -183,8 +282,6 @@ if game.PlaceId == 2753915549 then
     elseif game.PlaceId == 7449423635 then
         W3 = true
 end
-
--- Quest [Lv.1 to MAX]
 
 local O = Instance.new("Folder", workspace)
 O.Name = "EnemySpawns"
@@ -389,8 +486,6 @@ local function Q()
     }
 end
 
--- Bring Mon
-
 spawn(function()
 	game:GetService("RunService").Heartbeat:Connect(function()
 		pcall(function()
@@ -431,8 +526,6 @@ task.spawn(function()
 	end
 end)
 
--- Click & Effects
-
 game:GetService("Players").LocalPlayer.Idled:connect(function()
     game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
     wait(1)
@@ -451,8 +544,6 @@ spawn(function()
     end
 end)
 
--- Weapon
-
 function EquipWeapon(B)
 	pcall(function()
 		if game.Players.LocalPlayer.Backpack:FindFirstChild(B) then
@@ -461,15 +552,6 @@ function EquipWeapon(B)
 		end
 	end)
 end;
-
--- gags
-
-local QuartyzLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/xTashaloveigne/Scripts/refs/heads/main/Mukuro.lua"))()
-
-local win = QuartyzLib:Window("XV")
-local serv = win:Server("Blox Fruits","")
-
-local AutoFarm = serv:Channel("Main","http://www.roblox.com/asset/?id=7040391851")
 
 Weapon = {
 	"Melee",
@@ -543,6 +625,7 @@ spawn(function()
                                         if not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, Q()[6]) then
                                             game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
                                         else
+AttackNoCooldown()
                                             PosMon = v.HumanoidRootPart.CFrame
                                             v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
                                             v.HumanoidRootPart.CanCollide = false
@@ -607,7 +690,6 @@ AutoFarm:Toggle("Auto Click",_G.Settings.FastAttack,function(value)
     _G.Settings.FastAttack = value
 SaveSettings()
 end)
-
 
 AutoFarm:Toggle("Bring Mob",_G.Settings.BringMob,function(value)
     _G.Settings.BringMob = value
