@@ -1,6 +1,7 @@
 if game:GetService("CoreGui"):FindFirstChild("Quartyz GUI") then
 	game:GetService("CoreGui"):FindFirstChild("Quartyz GUI"):Destroy()
 end
+
 local QuartyzLib = {}
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
