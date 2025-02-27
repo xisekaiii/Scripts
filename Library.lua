@@ -1,9 +1,9 @@
-if game:GetService("CoreGui"):FindFirstChild("shadowyy") then
-    game:GetService("CoreGui"):FindFirstChild("shadowyy"):Destroy()
+if game:GetService("CoreGui"):FindFirstChild("Linoria Lib") then
+    game:GetService("CoreGui"):FindFirstChild("Linoria Lib"):Destroy()
 end
 
-if gethui and gethui():FindFirstChild("shadowyy") then
-    gethui():FindFirstChild("shadowyy"):Destroy()
+if gethui and gethui():FindFirstChild("Linoria Lib") then
+    gethui():FindFirstChild("Linoria Lib"):Destroy()
 end
 
 local InputService = game:GetService('UserInputService');
