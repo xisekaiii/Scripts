@@ -473,11 +473,11 @@ spawn(function()
     end
 end)
 
-function EquipWeapon(B)
+function EquipWeapon(zz)
 	pcall(function()
 		if game.Players.LocalPlayer.Backpack:FindFirstChild(B) then
-			local C = game.Players.LocalPlayer.Backpack:FindFirstChild(B)
-			game.Players.LocalPlayer.Character.Humanoid:EquipTool(C)
+			local vv = game.Players.LocalPlayer.Backpack:FindFirstChild(zz)
+			game.Players.LocalPlayer.Character.Humanoid:EquipTool(vv)
 		end
 	end)
 end;
@@ -553,15 +553,15 @@ spawn(function()
                                         if not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, Q()[6]) then
                                             game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
                                         else
+					    EquipWeapon(_G.SelectWeapon)
+					    Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
+				            AttackNoCoolDown()
                                             PosMon = v.HumanoidRootPart.CFrame
                                             v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
                                             v.HumanoidRootPart.CanCollide = false
                                             v.Humanoid.WalkSpeed = 0
                                             v.Head.CanCollide = false
-                                            EquipWeapon(_G.SelectWeapon)
                                             v.HumanoidRootPart.Transparency = 1
-                                            Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
-					    AttackNoCoolDown()
                                         end
                                     until not _G.Settings.AutoFarm or not v.Parent or v.Humanoid.Health <= 0 or dM.Visible == false or not v:FindFirstChild("HumanoidRootPart")
                                 end
