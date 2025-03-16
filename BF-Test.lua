@@ -197,7 +197,7 @@ end
 spawn(function()
     while wait() do
         if _G.Settings.FastAttack then
-            AttackNoCooldown()
+            AttackNoCoolDown()
         end
     end
 end)
@@ -561,7 +561,7 @@ spawn(function()
                                             EquipWeapon(_G.SelectWeapon)
                                             v.HumanoidRootPart.Transparency = 1
                                             Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
-					    AttackNoCooldown()
+					    AttackNoCoolDown()
                                         end
                                     until not _G.Settings.AutoFarm or not v.Parent or v.Humanoid.Health <= 0 or dM.Visible == false or not v:FindFirstChild("HumanoidRootPart")
                                 end
