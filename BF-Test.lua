@@ -475,7 +475,7 @@ end)
 
 function EquipWeapon(zz)
 	pcall(function()
-		if game.Players.LocalPlayer.Backpack:FindFirstChild(B) then
+		if game.Players.LocalPlayer.Backpack:FindFirstChild(zz) then
 			local vv = game.Players.LocalPlayer.Backpack:FindFirstChild(zz)
 			game.Players.LocalPlayer.Character.Humanoid:EquipTool(vv)
 		end
