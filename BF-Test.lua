@@ -124,35 +124,80 @@ task.spawn(function()
     end)
 end)
 
-local module = {
-    NextAttack = 0,
-    Distance = 55,
-    attackMobs = true,
-    attackPlayers = true
-}
-
-local Player = game:GetService("Players")
-
-function module:GetBladeHits()
-    local BladeHits = {}
-    for _, Enemy in game:GetService("Workspace").Enemies:GetChildren() do
-        table.insert(BladeHits, Enemy.HumanoidRootPart)
+local v21 = game.Players.LocalPlayer;
+function FindEnemiesInRange(v223, v224)
+    local v225 = (v21.Character or v21.CharacterAdded:Wait()):GetPivot().Position;
+    local v226 = nil;
+    for v471, v472 in ipairs(v224) do
+        if (not v472:GetAttribute("IsBoat") and v472:FindFirstChildOfClass("Humanoid") and (v472.Humanoid.Health > 0)) then
+            local v671 = v472:FindFirstChild("Head");
+            if (v671 and ((v225 - v671.Position).Magnitude <= 60)) then
+                if (v472 ~= v21.Character) then
+                    table.insert(v223, {
+                        v472,
+                        v671
+                    });
+                    v226 = v671;
+                end
+            end
+        end
     end
-    return BladeHits
+    for v473, v474 in ipairs(game.Players:GetPlayers()) do
+        if (v474.Character and (v474 ~= v21)) then
+            local v672 = v474.Character:FindFirstChild("Head");
+            if (v672 and ((v225 - v672.Position).Magnitude <= 60)) then
+                table.insert(v223, {
+                    v474.Character,
+                    v672
+                });
+                v226 = v672;
+            end
+        end
+    end
+    return v226;
 end
 
-function module:attack()
-    local BladeHits = self:GetBladeHits()
-    game:GetService("ReplicatedStorage").Modules.Net:WaitForChild("RE/RegisterAttack"):FireServer(0)
-    for _, Hit in BladeHits do
-        game:GetService("ReplicatedStorage").Modules.Net:WaitForChild("RE/RegisterHit"):FireServer(Hit)
+function GetEquippedTool()
+    local v227 = v21.Character;
+    if not v227 then
+        return nil;
     end
+    for v475, v476 in ipairs(v227:GetChildren()) do
+        if v476:IsA("Tool") then
+            return v476;
+        end
+    end
+    return nil;
+end
+
+function AttackNoCoolDown()
+    local v228 = {};
+    local v229 = game:GetService("Workspace").Enemies:GetChildren();
+    local v230 = FindEnemiesInRange(v228, v229);
+    if not v230 then
+        return;
+    end
+    local v231 = GetEquippedTool();
+    if not v231 then
+        return;
+    end
+    pcall(function()
+        local v477 = game:GetService("ReplicatedStorage");
+        local v478 = v477:WaitForChild("Modules"):WaitForChild("Net"):WaitForChild("RE/RegisterAttack");
+        local v479 = v477:WaitForChild("Modules"):WaitForChild("Net"):WaitForChild("RE/RegisterHit");
+        if (# v228 > 0) then
+            v478:FireServer(1e-9);
+            v479:FireServer(v230, v228);
+        else
+            task.wait(1e-9);
+        end
+    end);
 end
 
 spawn(function()
     while wait() do
         if _G.Settings.FastAttack then
-            module:attack()
+            AttackNoCooldown()
         end
     end
 end)
@@ -368,6 +413,8 @@ local function Q()
     }
 end
 
+local dK = 1
+
 spawn(function()
 	game:GetService("RunService").Heartbeat:Connect(function()
 		pcall(function()
@@ -437,7 +484,7 @@ end;
 
 local QuartyzLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/xTashaloveigne/Scripts/refs/heads/main/DiscordLib.lua"))()
 
-local win = QuartyzLib:Window("XV")
+local win = QuartyzLib:Window("Test")
 local serv = win:Server("Blox Fruits","")
 
 local AutoFarm = serv:Channel("Main","http://www.roblox.com/asset/?id=7040391851")
@@ -487,14 +534,6 @@ if value == false then
         wait()
     end
 end)
-AttackRandomType_MonCFrame = 1
-spawn(function()
-	while wait() do
-		AttackRandomType_MonCFrame = math.random(1, 5)
-		wait(0.3)
-	end
-end)
-local dK = 1
 
 spawn(function()
     while task.wait() do
@@ -522,9 +561,7 @@ spawn(function()
                                             EquipWeapon(_G.SelectWeapon)
                                             v.HumanoidRootPart.Transparency = 1
                                             Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
-                                            if not _G.Settings.AutoFarm then
-                                                _G.Settings.FastAttack = true
-                                            end
+					    AttackNoCooldown()
                                         end
                                     until not _G.Settings.AutoFarm or not v.Parent or v.Humanoid.Health <= 0 or dM.Visible == false or not v:FindFirstChild("HumanoidRootPart")
                                 end
