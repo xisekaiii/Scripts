@@ -1,3 +1,5 @@
+-- Old Blox Fruits AutoFarm Don't Skid
+
 repeat wait() until game:IsLoaded()
 repeat wait() until game:GetService("Players")
 repeat wait() until game:GetService("Players").LocalPlayer
@@ -54,26 +56,24 @@ end
 
 LoadSettings()
 
--- [ Tween Functions #1 ]
-
-function Tween(Peach)
+function Tween(xx)
 	if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health <= 0 or not game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid") then 
         tween:Cancel() 
         repeat task.wait() until game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid") and game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Health > 0 wait(7) return 
     end
-	if (game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - Peach.Position).Magnitude <= 150 then
+	if (game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - xx.Position).Magnitude <= 150 then
 		pcall(function()
 			tween:Cancel()
 
-			game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.CFrame = Peach
+			game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.CFrame = xx
 
 			return
 		end)
 	end
 
 	local tween_s = game:service("TweenService")
-	local info = TweenInfo.new((game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - Peach.Position).Magnitude/300,Enum.EasingStyle.Linear)
-	tween = tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"],info,{CFrame = Peach})
+	local info = TweenInfo.new((game:GetService("Players")["LocalPlayer"].Character.HumanoidRootPart.Position - xx.Position).Magnitude/300,Enum.EasingStyle.Linear)
+	tween = tween_s:Create(game.Players.LocalPlayer.Character["HumanoidRootPart"],info,{CFrame = xx})
 	tween:Play()
 
 	local tweenfunc = {}
@@ -84,8 +84,6 @@ function Tween(Peach)
 
 	return tweenfunc
 end
-
--- [ Body Gyro ]
 
 task.spawn(function()
     game:GetService("RunService").Stepped:Connect(function()
@@ -126,7 +124,6 @@ task.spawn(function()
     end)
 end)
 
--- [ Click Functions ]
 local module = {
     NextAttack = 0,
     Distance = 55,
@@ -160,31 +157,13 @@ spawn(function()
     end
 end)
 
-function ClickCamera()
-    pcall(function()
-        game:GetService("VirtualUser"):CaptureController()
-        game:GetService("VirtualUser"):ClickButton1(Vector2.new(851,158),game:GetService("Workspace").Camera.CFrame)
-    end)
-end
-
-function Click()
-    pcall(function()
-        game:GetService("VirtualUser"):CaptureController()
-        game:GetService("VirtualUser"):Button1Down(Vector2.new(1280,672))
-    end)
-end
-
--- Place ID
-
 if game.PlaceId == 2753915549 then
-        W = true
+        Sea1 = true
     elseif game.PlaceId == 4442272183 then
-        W2 = true
+        Sea2 = true
     elseif game.PlaceId == 7449423635 then
-        W3 = true
+        Sea3 = true
 end
-
--- Quest [Lv.1 to MAX]
 
 local O = Instance.new("Folder", workspace)
 O.Name = "EnemySpawns"
@@ -389,8 +368,6 @@ local function Q()
     }
 end
 
--- Bring Mon
-
 spawn(function()
 	game:GetService("RunService").Heartbeat:Connect(function()
 		pcall(function()
@@ -431,8 +408,6 @@ task.spawn(function()
 	end
 end)
 
--- Click & Effects
-
 game:GetService("Players").LocalPlayer.Idled:connect(function()
     game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
     wait(1)
@@ -451,8 +426,6 @@ spawn(function()
     end
 end)
 
--- Weapon
-
 function EquipWeapon(B)
 	pcall(function()
 		if game.Players.LocalPlayer.Backpack:FindFirstChild(B) then
@@ -461,8 +434,6 @@ function EquipWeapon(B)
 		end
 	end)
 end;
-
--- gags
 
 local QuartyzLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/xTashaloveigne/Scripts/refs/heads/main/DiscordLib.lua"))()
 
@@ -550,19 +521,7 @@ spawn(function()
                                             v.Head.CanCollide = false
                                             EquipWeapon(_G.SelectWeapon)
                                             v.HumanoidRootPart.Transparency = 1
-                                            if AttackRandomType_MonCFrame == 1 then
-                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 20))
-                                            elseif AttackRandomType_MonCFrame == 2 then
-                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, -20))
-                                            elseif AttackRandomType_MonCFrame == 3 then
-                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(20, 30, 0))
-                                            elseif AttackRandomType_MonCFrame == 4 then
-                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, -20))
-                                            elseif AttackRandomType_MonCFrame == 5 then
-                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(-20, 30, 0))
-                                            else
-                                                Tween(v.HumanoidRootPart.CFrame * CFrame.new(0, 30, 20))
-                                            end
+                                            Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
                                             if not _G.Settings.AutoFarm then
                                                 _G.Settings.FastAttack = true
                                             end
@@ -607,7 +566,6 @@ AutoFarm:Toggle("Auto Click",_G.Settings.FastAttack,function(value)
     _G.Settings.FastAttack = value
 SaveSettings()
 end)
-
 
 AutoFarm:Toggle("Bring Mob",_G.Settings.BringMob,function(value)
     _G.Settings.BringMob = value
