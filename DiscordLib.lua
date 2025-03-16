@@ -245,7 +245,7 @@ function QuartyzLib:Window(text,mainclr,cls)
 	ServersHold.ScrollBarThickness = 1
 	ServersHold.ScrollBarImageTransparency = 1
 	ServersHold.CanvasSize = UDim2.new(0, 0, 0, 0)
-    ServersHold.AutomaticSize = Enum.AutomaticSize.Y
+        ServersHold.AutomaticSize = Enum.AutomaticSize.Y
     
 	ServersHoldLayout.Name = "ServersHoldLayout"
 	ServersHoldLayout.Parent = ServersHold
@@ -531,26 +531,7 @@ function QuartyzLib:Window(text,mainclr,cls)
 		ChannelTitleFrameCorner.CornerRadius = UDim.new(0, 7)
 		ChannelTitleFrameCorner.Name = "ChannelTitleFrameCorner"
 		ChannelTitleFrameCorner.Parent = ChannelTitleFrame
-
-		TimeGlobal.Name = "TimeGlobal"
-		TimeGlobal.Parent = ChannelTitleFrame
-		TimeGlobal.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-		TimeGlobal.Position = UDim2.new(0.3562470865, 0, 0, 0)
-		TimeGlobal.Size = UDim2.new(0, 95, 0, 39)
-		TimeGlobal.BackgroundTransparency = 1
-		TimeGlobal.ZIndex = 3
-		TimeGlobal.Font = Enum.Font.GothamSemibold
-		TimeGlobal.Text = "N/A"
-		TimeGlobal.TextColor3 = PresetColor
-		TimeGlobal.TextSize = 15.000
-		TimeGlobal.TextXAlignment = Enum.TextXAlignment.Left
-
-		spawn(function()
-			while wait() do
-				TimeGlobal.Text = os.date("%A ")..os.date("%B ")..os.date("%Y ")..os.date("%I:")..os.date("%M:")..os.date("%S")..string.lower(os.date(" %p"))
-			end
-		end)
-
+		
 		ChannelTitle.Name = "ChannelTitle"
 		ChannelTitle.Parent = ChannelTitleFrame
 		ChannelTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
