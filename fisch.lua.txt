@@ -1,5 +1,4 @@
--- leaked and backed up by 25ms! <3
-print"✅ Security verification passed. Loading NoxHub..."
+print"✅ Security verification passed. Loading iSekai Hub..."
 local PreloadConstants = {
 	PlaceVersionSupport = 4000,
 	BypassVersion = "V3",
@@ -27,7 +26,7 @@ local Success, Error = pcall(function()
 	local CorePackages = game:GetService"CorePackages"
 	local VeryImportantPart = Instance.new"Part"
 	local Toasts = loadstring(
-		game:HttpGet"https://you.whimper.xyz/sources/NoxHub/toast.lua"	
+		game:HttpGet"https://raw.githubusercontent.com/xisekaiii/Scripts/refs/heads/main/toast.lua"	
 )()
 
 	local function InteractiveToast()
@@ -1083,7 +1082,7 @@ local Success, Error = pcall(function()
 
 
 	local Window = Library:CreateWindow{
-		Title = "NoxHub - Fisch",
+		Title = "iSekai - Fisch",
 		Center = true,
 		AutoShow = true,
 	}
