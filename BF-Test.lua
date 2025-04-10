@@ -1,5 +1,3 @@
--- Old Blox Fruits AutoFarm Don't Skid
-
 repeat wait() until game:IsLoaded()
 repeat wait() until game:GetService("Players")
 repeat wait() until game:GetService("Players").LocalPlayer
@@ -58,209 +56,6 @@ end
 
 LoadSettings()
 
-local O = Instance.new("Folder", workspace)
-O.Name = "EnemySpawns"
-for y, z in pairs(workspace._WorldOrigin.EnemySpawns:GetChildren()) do
-    if z:IsA("Part") then
-        local P = z:Clone()
-        local J = string.gsub(z.Name, "Lv. ", "")
-        local K = string.gsub(J, "[%[%]]", "")
-        local L = string.gsub(K, "%d+", "")
-        local M = string.gsub(L, "%s+", "")
-        P.Name = M
-        P.Parent = workspace.EnemySpawns
-        P.Anchored = true
-    end
-end
-for y, z in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-    if z:IsA("Model") and z:FindFirstChild("HumanoidRootPart") then
-        local P = z.HumanoidRootPart:Clone()
-        local J = string.gsub(z.Name, "Lv. ", "")
-        local K = string.gsub(J, "[%[%]]", "")
-        local L = string.gsub(K, "%d+", "")
-        local M = string.gsub(L, "%s+", "")
-        P.Name = M
-        P.Parent = workspace.EnemySpawns
-        P.Anchored = true
-    end
-end
-for y, z in pairs(game.ReplicatedStorage:GetChildren()) do
-    if z:IsA("Model") and z:FindFirstChild("HumanoidRootPart") then
-        local P = z.HumanoidRootPart:Clone()
-        local J = string.gsub(z.Name, "Lv. ", "")
-        local K = string.gsub(J, "[%[%]]", "")
-        local L = string.gsub(K, "%d+", "")
-        local M = string.gsub(L, "%s+", "")
-        P.Name = M
-        P.Parent = workspace.EnemySpawns
-        P.Anchored = true
-    end
-end
-local function Q()
-    local R = game:GetService("Players").LocalPlayer.Data.Level.Value
-    if R >= 1 and R <= 9 then
-        if tostring(game.Players.LocalPlayer.Team) == "Marines" then
-            MobName = "Trainee"
-            QuestName = "MarineQuest"
-            QuestLevel = 1
-            Mon = "Trainee"
-            NPCPosition = CFrame.new(-2709.67944, 24.5206585, 2104.24585, -0.744724929, -3.97967455e-08, -0.667371571, 4.32403588e-08, 1, -1.07884304e-07, 0.667371571, -1.09201515e-07, -0.744724929)
-        elseif tostring(game.Players.LocalPlayer.Team) == "Pirates" then
-            MobName = "Bandit"
-            Mon = "Bandit"
-            QuestName = "BanditQuest1"
-            QuestLevel = 1
-            NPCPosition = CFrame.new(1059.99731, 16.9222069, 1549.28162, -0.95466274, 7.29721794e-09, 0.297689587, 1.05190106e-08, 1, 9.22064114e-09, -0.297689587, 1.19340022e-08, -0.95466274)
-        end
-        return {
-            [1] = QuestLevel,
-            [2] = NPCPosition,
-            [3] = MobName,
-            [4] = QuestName,
-            [5] = LevelRequire,
-            [6] = Mon,
-            [7] = MobCFrame
-        }
-    end
-    if R >= 210 and R <= 249 then
-        MobName = "Dangerous Prisoner"
-        QuestName = "PrisonerQuest"
-        QuestLevel = 2
-        Mon = "Dangerous Prisoner"
-        NPCPosition = CFrame.new(5308.93115, 1.65517521, 475.120514, -0.0894274712, -5.00292918e-09, -0.995993316, 1.60817859e-09, 1, -5.16744869e-09, 0.995993316, -2.06384709e-09, -0.0894274712)
-        local S = {}
-        local J = string.gsub(MobName, "Lv. ", "")
-        local K = string.gsub(J, "[%[%]]", "")
-        local L = string.gsub(K, "%d+", "")
-        local M = string.gsub(L, "%s+", "")
-        for y, z in pairs(game.workspace.EnemySpawns:GetChildren()) do
-            if z.Name == M then
-                table.insert(S, z.CFrame)
-            end
-            MobCFrame = S
-        end
-        return {
-            [1] = QuestLevel,
-            [2] = NPCPosition,
-            [3] = MobName,
-            [4] = QuestName,
-            [5] = LevelRequire,
-            [6] = Mon,
-            [7] = MobCFrame
-        }
-    end
-    local T = require(game:GetService("ReplicatedStorage").GuideModule)
-    local U = require(game:GetService("ReplicatedStorage").Quests)
-    for y, z in pairs(T["Data"]["NPCList"]) do
-        for V, W in pairs(z["Levels"]) do
-            if R >= W then
-                if not LevelRequire then
-                    LevelRequire = 0
-                end
-                if W > LevelRequire then
-                    NPCPosition = y["CFrame"]
-                    QuestLevel = V
-                    LevelRequire = W
-                end
-                if #z["Levels"] == 3 and QuestLevel == 3 then
-                    NPCPosition = y["CFrame"]
-                    QuestLevel = 2
-                    LevelRequire = z["Levels"][2]
-                end
-            end
-        end
-    end
-    if R >= 375 and R <= 399 then
-        if _G.Settings.AutoFarm and (NPCPosition.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
-            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance", Vector3.new(61163.8515625, 11.6796875, 1819.7841796875))
-        end
-    end
-    if R >= 400 and R <= 449 then
-        if _G.Settings.AutoFarm and (NPCPosition.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude > 3000 then
-            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("requestEntrance", Vector3.new(61163.8515625, 11.6796875, 1819.7841796875))
-        end
-    end
-    for y, z in pairs(U) do
-        for V, W in pairs(z) do
-            if W["LevelReq"] == LevelRequire and y ~= "CitizenQuest" then
-                QuestName = y
-                for X, Y in pairs(W["Task"]) do
-                    MobName = X
-                    Mon = string.split(X, " [Lv. " .. W["LevelReq"] .. "]")[1]
-                end
-            end
-        end
-    end
-    if QuestName == "MarineQuest2" then
-        QuestName = "MarineQuest2"
-        QuestLevel = 1
-        MobName = "Chief Petty Officer"
-        Mon = "Chief Petty Officer"
-        LevelRequire = 120
-    elseif QuestName == "ImpelQuest" then
-        QuestName = "PrisonerQuest"
-        QuestLevel = 2
-        MobName = "Dangerous Prisoner"
-        Mon = "Dangerous Prisoner"
-        LevelRequire = 210
-        NPCPosition = CFrame.new(5310.60547, 0.350014925, 474.946594, 0.0175017118, 0, 0.999846935, 0, 1, 0, -0.999846935, 0, 0.0175017118)
-    elseif QuestName == "SkyExp1Quest" then
-        if QuestLevel == 1 then
-            NPCPosition = CFrame.new(-4721.88867, 843.874695, -1949.96643, 0.996191859, -0, -0.0871884301, 0, 1, -0, 0.0871884301, 0, 0.996191859)
-        elseif QuestLevel == 2 then
-            NPCPosition = CFrame.new(-7859.09814, 5544.19043, -381.476196, -0.422592998, 0, 0.906319618, 0, 1, 0, -0.906319618, 0, -0.422592998)
-        end
-    elseif QuestName == "Area2Quest" and QuestLevel == 2 then
-        QuestName = "Area2Quest"
-        QuestLevel = 1
-        MobName = "Swan Pirate"
-        Mon = "Swan Pirate"
-        LevelRequire = 775
-    end
-    MobName = MobName:sub(1, #MobName)
-    if not MobName:find("Lv") then
-        for y, z in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-            MonLV = string.match(z.Name, "%d+")
-            if z.Name:find(MobName) and #z.Name > #MobName and tonumber(MonLV) <= R + 50 then
-                MobName = z.Name
-            end
-        end
-    end
-    if not MobName:find("Lv") then
-        for y, z in pairs(game:GetService("ReplicatedStorage"):GetChildren()) do
-            MonLV = string.match(z.Name, "%d+")
-            if z.Name:find(MobName) and #z.Name > #MobName and tonumber(MonLV) <= R + 50 then
-                MobName = z.Name
-                Mon = a
-            end
-        end
-    end
-    local S = {}
-    local J = string.gsub(MobName, "Lv. ", "")
-    local K = string.gsub(J, "[%[%]]", "")
-    local L = string.gsub(K, "%d+", "")
-    local M = string.gsub(L, "%s+", "")
-    for y, z in pairs(game.workspace.EnemySpawns:GetChildren()) do
-        if z.Name == M then
-            table.insert(S, z.CFrame)
-        else
-            table.insert(S, nil)
-        end
-        MobCFrame = S
-    end
-    return {
-        [1] = QuestLevel,
-        [2] = NPCPosition,
-        [3] = MobName,
-        [4] = QuestName,
-        [5] = LevelRequire,
-        [6] = Mon,
-        [7] = MobCFrame,
-        [8] = MonQ,
-        [9] = MobCFrameNuber
-    }
-end
-
 local QuartyzLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/xTashaloveigne/Scripts/refs/heads/main/DiscordLib.lua"))()
 
 local win = QuartyzLib:Window("Test")
@@ -298,6 +93,69 @@ if value == false then
         Tween(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame)
         wait()
     end
+spawn(function()
+    while task.wait() do
+        local dL = game.Players.LocalPlayer.Data.Level.Value
+        local dM = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest
+        pcall(function()
+            if _G.Settings.AutoFarm then
+                if dM.Visible == true then
+                    if game:GetService("Workspace").Enemies:FindFirstChild(Q()[3]) then
+                        for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                            if v.Name == Q()[3] then
+                                if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                                    repeat task.wait()
+                                        if _G.Settings.AutoFarm then
+                                            dK = 1
+                                        end
+                                        if not string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, Q()[6]) then
+                                            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+                                        else
+					    EquipWeapon(_G.SelectWeapon)
+					    Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
+				            AttackNoCoolDown()
+                                            PosMon = v.HumanoidRootPart.CFrame
+                                            v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+                                            v.HumanoidRootPart.CanCollide = false
+                                            v.Humanoid.WalkSpeed = 0
+                                            v.Head.CanCollide = false
+                                            v.HumanoidRootPart.Transparency = 1
+                                        end
+                                    until not _G.Settings.AutoFarm or not v.Parent or v.Humanoid.Health <= 0 or dM.Visible == false or not v:FindFirstChild("HumanoidRootPart")
+                                end
+                            end
+                        end
+                    else
+                        if _G.Settings.AutoFarm then
+                            Tween(Q()[7][dK] * CFrame.new(0,30,0))
+                            if (Q()[7][dK].Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 50 then
+                                if dK == nil or dK == '' then
+                                    dK = 1
+                                elseif dK >= #Q()[7] then
+                                    dK = 1
+                                end
+                                dK = dK + 1
+                                wait(0.5)
+                            end
+                        end
+                    end
+                else
+                    Tween(Q()[2])
+                    if (Q()[2].Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 1 then
+                        BringMob = false
+                        wait(0.2)
+                        game:GetService('ReplicatedStorage').Remotes.CommF_:InvokeServer("StartQuest",Q()[4],Q()[1])
+			    wait(0.5)
+				if dM.Visible == true then
+				Tween(v.HumanoidRootPart.CFrame * CFrame.new(0,30,0))
+				end
+                        return
+                    end
+                end
+            end
+        end)
+    end
+end)
 end)
 
 AutoFarm:Toggle("Auto Click",_G.Settings.FastAttack,function(value)
